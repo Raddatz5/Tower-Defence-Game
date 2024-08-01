@@ -201,8 +201,7 @@ void UpdateSpeed()
     IEnumerator KnightFight()
     {   
         while(knightTarget.activeSelf)
-        {  
-            Debug.Log("I should only get called once per enemy");
+        {             
             knightTarget.GetComponent<KnightMover>().Stop();
             knightTarget.GetComponent<KnightMover>().WhoIsHittingMe(enemyHealth);
             float elapsedTime = 0;

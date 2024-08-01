@@ -67,11 +67,12 @@ void Awake()
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Knight"))
-        {   
+        {   Debug.Log("I should Stop");
             Vector3 relativeVel = rb.velocity - other.attachedRigidbody.velocity;
             float dotProduct = Vector3.Dot(relativeVel, transform.forward);
+            Debug.Log(dotProduct);
             if(dotProduct > 0)
-            {
+            {   Debug.Log("Hellow Friend");
                 Stop();
                 StartCoroutine(ImWaiting(other.transform));
             }
@@ -112,11 +113,10 @@ IEnumerator Fighting()
             foreach(EnemyHealth enemy in enemiesToRemove)
             {
                 enemyList.Remove(enemy);
-                
             }
             if(enemyList.Count <= 0)
-            {
-                break;
+            {   Go();
+                break;                
             }
             else {   
                 yield return new WaitForSeconds(attackSpeed);
@@ -162,9 +162,9 @@ IEnumerator Fighting()
     }
 
 IEnumerator ImWaiting(Transform closestKnight)
-{
+{   Debug.Log("Im waiting");
     float distance = Vector3.Distance(transform.position,closestKnight.position);
-    yield return new WaitUntil(() => (distance - distance) > 1f);
+    yield return new WaitUntil(() => (Vector3.Distance(transform.position,closestKnight.position) - distance) > 1f);
     Go();
 
 }
