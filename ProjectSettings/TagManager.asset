@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Enemy
+  - Path
+  - Ally
+  - Buff
+  - DeBuff
+  - UpgradeMenu
+  - Stats
+  - Floating
+  - Feedback
+  - Knight
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Post Processing Test
+  - Water
+  - UI
+  - Enemy
+  - Clickable
+  - MirrorTarget
+  - Knight
+  - SlowDown
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0

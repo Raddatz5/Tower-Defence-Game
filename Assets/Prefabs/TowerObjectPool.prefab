@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7990360615496153274
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 96938571942549478}
+  - component: {fileID: 7784573285301012411}
+  m_Layer: 0
+  m_Name: TowerObjectPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &96938571942549478
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7990360615496153274}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.5371377, y: 0, z: 0, w: 0.84349465}
+  m_LocalPosition: {x: -100, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 64.978, y: 0, z: 0}
+--- !u!114 &7784573285301012411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7990360615496153274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2474b6cff161fa64e94d4fcfe580f149, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tower0: {fileID: 3219458064393657486, guid: 8a965e088bae16643aab3d07ccfd5e2e, type: 3}
+  tower1: {fileID: 3219458064393657486, guid: 8795cd2c90a81284f979ae152edbbe8f, type: 3}
+  tower2: {fileID: 3219458064393657486, guid: a5c9e3b990993404aa83c127f2bb9783, type: 3}
+  tower3: {fileID: 500328090959630636, guid: 31f1afa60bf3e414dac4e2f704898628, type: 3}
+  tower4: {fileID: 4997279678369615508, guid: cebd0b72b602e5648b028f65f6705a1d, type: 3}
+  tower5: {fileID: 5730228042856448267, guid: 3ae959201a27ac641b3fb5674f7a52f8, type: 3}
+  tower6: {fileID: 7758478873561516303, guid: 1bdb9707b28ea1843ac3f74eabb1d521, type: 3}
+  tower7: {fileID: 5730228042856448267, guid: 52cec312a163e7941b29751552a235b6, type: 3}
+  tower8: {fileID: 5730228042856448267, guid: 52cec312a163e7941b29751552a235b6, type: 3}
+  poolSize: 50

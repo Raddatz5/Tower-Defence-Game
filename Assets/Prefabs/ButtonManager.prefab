@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5196426507935587206
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7240384238251178459}
+  - component: {fileID: 6746763980674421377}
+  m_Layer: 0
+  m_Name: ButtonManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7240384238251178459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5196426507935587206}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 344.17603, y: 101.36046, z: 12.49335}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6746763980674421377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5196426507935587206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14b5b9b8b8352de468d108be25035e69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedObjects:
+  - {fileID: 3219458064393657486, guid: 8a965e088bae16643aab3d07ccfd5e2e, type: 3}
+  - {fileID: 3219458064393657486, guid: 8795cd2c90a81284f979ae152edbbe8f, type: 3}
+  - {fileID: 3219458064393657486, guid: a5c9e3b990993404aa83c127f2bb9783, type: 3}
+  - {fileID: 500328090959630636, guid: 31f1afa60bf3e414dac4e2f704898628, type: 3}
+  - {fileID: 4997279678369615508, guid: cebd0b72b602e5648b028f65f6705a1d, type: 3}
+  - {fileID: 5730228042856448267, guid: 3ae959201a27ac641b3fb5674f7a52f8, type: 3}
+  - {fileID: 7758478873561516303, guid: 1bdb9707b28ea1843ac3f74eabb1d521, type: 3}
+  - {fileID: 5730228042856448267, guid: 52cec312a163e7941b29751552a235b6, type: 3}
+  selectedObjectsGhosts:
+  - {fileID: 7244721291417392770, guid: 83878961ed183bb4da528e8dba424cba, type: 3}
+  - {fileID: 2478080087693586240, guid: fb70ab0f3258fa946863799ceb0891ed, type: 3}
+  - {fileID: 2322927891488415518, guid: 22b5ea57459a2c8498d7b9392ce26c3d, type: 3}
+  - {fileID: 6512446859775872067, guid: 45fe8c2611815e948867f7f2134c23e3, type: 3}
+  - {fileID: 8729446394366683210, guid: f40769612c179f64d9ff0e35419aeb87, type: 3}
+  - {fileID: 7508535979795534828, guid: 65047aeec310f494fa73ab1e66829c54, type: 3}
+  - {fileID: 2995060428855406473, guid: 3b9209013cd83ff4d82d85a94c85cf05, type: 3}
+  - {fileID: 5730228042856448267, guid: 88a41ce3ef65ea1448ed4e0bd7c7010f, type: 3}
+  spawnObjectIndex: 0
+  buildMenu: {fileID: 0}
+  upgradeMenu: {fileID: 0}
+  percentToSell: 0.8
