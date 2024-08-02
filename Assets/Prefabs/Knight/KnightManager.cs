@@ -8,6 +8,7 @@ public class KnightManager : MonoBehaviour
     [SerializeField] GameObject knightPrefab;
     [SerializeField] [Range(0, 20)] int sizeOfPool;
     GameObject [] knightPool;
+    [SerializeField] int maxKnightAmount = 5;
 
     void Awake()
     {   
@@ -22,6 +23,18 @@ public class KnightManager : MonoBehaviour
         {
             knightPool[i] = Instantiate(knightPrefab, transform);
             knightPool[i].SetActive(false);
+        }
+    }
+
+    public void ButtonKnightSpawn()
+    {
+        for(int i =0; i < knightPool.Length; i++)
+        {
+            if(!knightPool[i].activeInHierarchy)
+            {
+                knightPool[i].SetActive(true);
+                break;
+            }
         }
     }
 }

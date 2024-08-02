@@ -67,12 +67,12 @@ void Awake()
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Knight"))
-        {   Debug.Log("I should Stop");
+        {  
             Vector3 relativeVel = rb.velocity - other.attachedRigidbody.velocity;
             float dotProduct = Vector3.Dot(relativeVel, transform.forward);
             Debug.Log(dotProduct);
             if(dotProduct > 0)
-            {   Debug.Log("Hellow Friend");
+            {   
                 Stop();
                 StartCoroutine(ImWaiting(other.transform));
             }
