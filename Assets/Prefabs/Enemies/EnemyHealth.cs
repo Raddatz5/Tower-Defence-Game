@@ -22,6 +22,8 @@ EnemyMover enemyMover;
 ObjectPoolBig2 objectPoolBig2;
 [SerializeField] float healthBarVerticalOffset = 10f;
 ExplosionPool explosionPool;
+List<Vector3> last4Positions = new();
+GridManager gridManager;
 
       
     void OnEnable()
@@ -31,7 +33,10 @@ ExplosionPool explosionPool;
         _targetHealthBar.HealthBarOffset = new Vector3(0f, healthBarVerticalOffset,UnityEngine.Random.Range(-0.5f,0.5f));
         UpdateHealth();
     }
-
+void Awake()
+{
+    gridManager = FindObjectOfType<GridManager>();
+}
 void Start() 
 {
     enemy = GetComponent<Enemy>();
@@ -46,34 +51,32 @@ void Start()
         UpdateHealth();
         if (currentEnemyHealth <= 0 && this != null)
         {
-            // StartCoroutine(CallDestroyEnemy());
             DestroyEnemy();
         }
     }
 
-// IEnumerator CallDestroyEnemy()
-//     {   
-//         if(!methodCalled)
-//         {
-//             DestroyEnemy();
-//             methodCalled = true;
-//         }
-//         yield return new WaitForSeconds(0.1f);
-        
-//         methodCalled = false;
-//      }
-
 void DestroyEnemy()
-    {   
+    {   last4Positions.Clear();
         enemy.RewardGold();
         explosionPool?.SpawnExplosion(enemyBigNumber,transform.position);
-        if(enemyBigNumber != 0)
-        {   
-            int currentWaypoint = enemyMover.CurrentWaypoint;
-            objectPoolBig2.SpawnEnemyMini(enemyBigNumber, currentWaypoint, enemyMover.TravelPercentOnDestroy);  
+
+    for(int i = 0; i < 3; i ++)
+    {
+        if(enemyMover.CurrentWaypoint - i >= 0)
+        {   Vector3 nodePosition = gridManager.GetPostitionFromCoordinates(enemyMover.Path[enemyMover.CurrentWaypoint - i].coordinates);
+            last4Positions.Add(nodePosition);
         }
-        gameObject.SetActive(false);
-        transform.position = transform.parent.position;
+        else
+        {   Vector3 nodePosition = gridManager.GetPostitionFromCoordinates(enemyMover.Path[0].coordinates);
+            last4Positions.Add(nodePosition);
+        } 
+    }
+    if(enemyBigNumber != 0)
+    {   
+        objectPoolBig2.SpawnEnemyMini(enemyBigNumber, last4Positions, enemyMover.TravelPercentOnDestroy);  
+    }
+    gameObject.SetActive(false);
+    transform.position = transform.parent.position;
      }
 
 

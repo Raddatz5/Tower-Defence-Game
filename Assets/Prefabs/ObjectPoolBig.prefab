@@ -51,7 +51,4 @@ MonoBehaviour:
   enemy4: {fileID: 9061018975664127356, guid: 5f281c2edff7de54890ea97dbbf0d50f, type: 3}
   enemy5: {fileID: 9061018975664127356, guid: 71c020ee403b1b44296c5890fb1e1f73, type: 3}
   poolSize: 24
-  spawnTimer: 1
-  waveTimer: 15
-  waveAmount5: 10
   numberOfMini: 2

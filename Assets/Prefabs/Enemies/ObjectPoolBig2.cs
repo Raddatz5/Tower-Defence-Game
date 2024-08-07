@@ -91,7 +91,7 @@ void Update()
         }        
     }
 
-    public void SpawnEnemyMini(int enemyBigNumber, int destroyedObjectWaypoint, float destroyedObjectTravel)
+    public void SpawnEnemyMini(int enemyBigNumber, List<Vector3> destroyedObjectWaypoint, float destroyedObjectTravel)
     {
         int miniCount = 0;
         
@@ -102,29 +102,22 @@ void Update()
                     enemyMover = enemyPools[enemyBigNumber-1][i].GetComponent<EnemyMover>();
                         switch(miniCount)
                         {   case 0: 
-                            enemyMover.TempPosition(destroyedObjectWaypoint-1, destroyedObjectTravel);
+                            enemyMover.TempPosition(destroyedObjectWaypoint[i], destroyedObjectTravel);
                             miniCount++;
                             enemyPools[enemyBigNumber-1][i].SetActive(true);                            
                             break;
 
                             case 1: 
-                            enemyMover.TempPosition(destroyedObjectWaypoint, destroyedObjectTravel);
+                            enemyMover.TempPosition(destroyedObjectWaypoint[i+1], destroyedObjectTravel);
                             miniCount++;
                             enemyPools[enemyBigNumber-1][i].SetActive(true);                            
                             break;
 
                             case 2: 
-                            enemyMover.TempPosition(destroyedObjectWaypoint+1, destroyedObjectTravel);
+                            enemyMover.TempPosition(destroyedObjectWaypoint[i+2], destroyedObjectTravel);
                             miniCount++;
                             enemyPools[enemyBigNumber-1][i].SetActive(true);                          
                             break;
-
-                            case 3: 
-                            enemyMover.TempPosition(destroyedObjectWaypoint-2,destroyedObjectTravel);
-                            miniCount++;
-                            enemyPools[enemyBigNumber-1][i].SetActive(true);                           
-                            break;
-                        
                         }
                     
                     
