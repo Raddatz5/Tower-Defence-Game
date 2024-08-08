@@ -31,6 +31,13 @@ public class GridManager : MonoBehaviour
             grid[coordinates].isWalkable = false;
         }
     }
+      public void UnBlockNode(Vector2Int coordinates)
+    {
+        if(grid.ContainsKey(coordinates))
+        {
+            grid[coordinates].isWalkable = true;
+        }
+    }
 
     public void ResetNodes()
     {

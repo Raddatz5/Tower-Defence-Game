@@ -146,5 +146,4 @@ public class PathFinder : MonoBehaviour
     BroadcastMessage("RecalculatePath", false, SendMessageOptions.DontRequireReceiver);
  }
 
-
 }

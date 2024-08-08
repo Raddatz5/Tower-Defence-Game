@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2839879773748726146}
   - component: {fileID: 2575849126138319741}
+  - component: {fileID: 164903825590409311}
   m_Layer: 0
   m_Name: ObjectPoolBig
   m_TagString: Untagged
@@ -52,3 +53,17 @@ MonoBehaviour:
   enemy5: {fileID: 9061018975664127356, guid: 71c020ee403b1b44296c5890fb1e1f73, type: 3}
   poolSize: 24
   numberOfMini: 2
+--- !u!114 &164903825590409311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5133932070631177702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fb39dbddc0d5cb4a873ebb571f65e9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startCoordinates: {x: 1, y: 6}
+  destinationCoordinates: {x: 11, y: 10}

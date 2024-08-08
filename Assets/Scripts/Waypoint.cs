@@ -25,8 +25,15 @@ public class Waypoint : MonoBehaviour
     TileBorder tileBorder;
     bool isThereATowerOnMe = false;
     GameObject whatTowerIsOnMe = null;
+    GridManager gridManager;
+    PathFinder pathFinder;
+    Vector2Int coordinates = new();
 
-
+    void Awake()
+    {
+        gridManager = FindObjectOfType<GridManager>();
+        pathFinder = FindObjectOfType<PathFinder>();
+    }
     void Start()
     {   towerObjectPool = FindObjectOfType<TowerObjectPool>(); 
         tileBorder = GetComponent<TileBorder>();
@@ -41,6 +48,15 @@ public class Waypoint : MonoBehaviour
             listOfSpawns = buttonManager.selectedObjects;
             spawnObject = listOfSpawns[0];
         }
+        if(gridManager != null)
+        {
+            coordinates = gridManager.GetCoordinatesFromPosition(transform.position);
+
+            if(!isPlaceable)
+            {
+                gridManager.BlockNode(coordinates);
+            }
+        }
     }
     public void UpdateMouseOver() 
     {    
@@ -52,7 +68,7 @@ public class Waypoint : MonoBehaviour
         {
             return;
         }
-        else if (!EventSystem.current.IsPointerOverGameObject() && isPlaceable && buttonManager.IsBuildMenuOpen)
+        else if (!EventSystem.current.IsPointerOverGameObject() && gridManager.GetNode(coordinates).isWalkable && !pathFinder.WillBlockPath(coordinates) && buttonManager.IsBuildMenuOpen)
         {   
                 index = buttonManager.WhereOnIndex;
                 spawnObject = listOfSpawns[index];
@@ -63,11 +79,12 @@ public class Waypoint : MonoBehaviour
                     whatTowerIsOnMe = towerObjectPool.SpawnTower(index, transform.position, gameObject);
                     if(this.CompareTag("Floating"))
                     {
-                        whatTowerIsOnMe.transform.parent = transform;
-                        
+                        whatTowerIsOnMe.transform.parent = transform; 
                     }
                     gold.Withdraw(goldCost1);
                     isPlaceable = false;
+                    gridManager.BlockNode(coordinates);
+                    pathFinder.NotifyReceivers();
                     tileBorder.UpdateSquare();
                     isThereATowerOnMe = true;
                 }
@@ -79,7 +96,7 @@ public class Waypoint : MonoBehaviour
         }
     public void MakePlaceable()
     {
-        isPlaceable = true;
+        gridManager.UnBlockNode(coordinates);
     }
     
     public void NoMoreTower()
