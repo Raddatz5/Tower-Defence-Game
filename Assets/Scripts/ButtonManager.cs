@@ -338,84 +338,58 @@ public void ButtonTowerDMGUpgrade()
         SceneManager.LoadScene(currentSceneIndex);
         Time.timeScale = originalTimeScale;
     }
-    public void OnbuttonClick1()
-    {   
+    public void ButtonBallista()
+    {
         spawnObjectIndex = 0;
-        if(spawnObjectGhost != ghostPool[spawnObjectIndex])
-        {spawnObjectGhost.SetActive(false);}
-        spawnObject = selectedObjects[spawnObjectIndex];
-        spawnObjectGhost = ghostPool[spawnObjectIndex];
-        
+        NextAfterButtonClick();
     }
-     public void OnbuttonClick2()
+    public void OnbuttonClick2()
     {  
         spawnObjectIndex = 1;
-         if(spawnObjectGhost != ghostPool[spawnObjectIndex])
-        {spawnObjectGhost.SetActive(false);}
-        spawnObject = selectedObjects[spawnObjectIndex];
-        spawnObjectGhost = ghostPool[spawnObjectIndex];
-       
+        NextAfterButtonClick();
     }
      public void OnbuttonClick3()
     {   
         spawnObjectIndex = 2;
-         if(spawnObjectGhost != ghostPool[spawnObjectIndex])
-        {spawnObjectGhost.SetActive(false);}
-        spawnObject = selectedObjects[spawnObjectIndex];
-        spawnObjectGhost = ghostPool[spawnObjectIndex];
-       
+         NextAfterButtonClick();
     }
 
          public void OnbuttonClick4()
     {   
         spawnObjectIndex = 3;
-         if(spawnObjectGhost != ghostPool[spawnObjectIndex])
-        {spawnObjectGhost.SetActive(false);}
-        spawnObject = selectedObjects[spawnObjectIndex];
-        spawnObjectGhost = ghostPool[spawnObjectIndex];
-       
+          NextAfterButtonClick();
     }
 
          public void OnbuttonClick5()
     {   
         spawnObjectIndex = 4;
-         if(spawnObjectGhost != ghostPool[spawnObjectIndex])
-        {spawnObjectGhost.SetActive(false);}
-        spawnObject = selectedObjects[spawnObjectIndex];
-        spawnObjectGhost = ghostPool[spawnObjectIndex];
-       
+         NextAfterButtonClick();
     }
 
          public void OnbuttonClick6()
     {   
         spawnObjectIndex = 5;
-         if(spawnObjectGhost != ghostPool[spawnObjectIndex])
-        {spawnObjectGhost.SetActive(false);}
-        spawnObject = selectedObjects[spawnObjectIndex];
-        spawnObjectGhost = ghostPool[spawnObjectIndex];
-        
+         NextAfterButtonClick();
     }
 
            public void OnbuttonClick7()
     {   
         spawnObjectIndex = 6;
-         if(spawnObjectGhost != ghostPool[spawnObjectIndex])
-        {spawnObjectGhost.SetActive(false);}
-        spawnObject = selectedObjects[spawnObjectIndex];
-        spawnObjectGhost = ghostPool[spawnObjectIndex];
-       
+         NextAfterButtonClick();
     }
 
            public void OnbuttonClick8()
     {   
         spawnObjectIndex = 7;
-         if(spawnObjectGhost != ghostPool[spawnObjectIndex])
-        {spawnObjectGhost.SetActive(false);}
+         NextAfterButtonClick();
+    }
+private void NextAfterButtonClick()
+    {
+        if (spawnObjectGhost != ghostPool[spawnObjectIndex])
+        { spawnObjectGhost.SetActive(false); }
         spawnObject = selectedObjects[spawnObjectIndex];
         spawnObjectGhost = ghostPool[spawnObjectIndex];
-       
     }
-
     void SpawnGhostPool()
         {   
             ghostPool = new GameObject[selectedObjectsGhosts.Length];

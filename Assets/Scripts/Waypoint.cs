@@ -68,7 +68,7 @@ public class Waypoint : MonoBehaviour
         {
             return;
         }
-        else if (!EventSystem.current.IsPointerOverGameObject() && gridManager.GetNode(coordinates).isWalkable && !pathFinder.WillBlockPath(coordinates) && buttonManager.IsBuildMenuOpen)
+        else if (!EventSystem.current.IsPointerOverGameObject() && isPlaceable && !pathFinder.WillBlockPath(coordinates) && buttonManager.IsBuildMenuOpen)
         {   
                 index = buttonManager.WhereOnIndex;
                 spawnObject = listOfSpawns[index];
@@ -97,6 +97,8 @@ public class Waypoint : MonoBehaviour
     public void MakePlaceable()
     {
         gridManager.UnBlockNode(coordinates);
+        pathFinder.NotifyReceivers();
+        isPlaceable = true;
     }
     
     public void NoMoreTower()
