@@ -13,6 +13,8 @@ public class Waypoint : MonoBehaviour
 {
     [SerializeField] bool isPlaceable;
     public bool IsPlaceable { get { return isPlaceable; } }
+    [SerializeField] bool isWall;
+    public bool IsWall { get { return isWall;}}
     GameObject[] listOfSpawns;
     public ButtonManager buttonManager;
     GameObject spawnObject;
@@ -52,7 +54,7 @@ public class Waypoint : MonoBehaviour
         {
             coordinates = gridManager.GetCoordinatesFromPosition(transform.position);
 
-            if(!isPlaceable)
+            if(!isPlaceable || isWall)
             {
                 gridManager.BlockNode(coordinates);
             }
@@ -60,7 +62,7 @@ public class Waypoint : MonoBehaviour
     }
     public void UpdateMouseOver() 
     {    
-       buttonManager.GhostPositionUpdate(transform.position, isPlaceable);       
+       buttonManager.GhostPositionUpdate(transform.position, isPlaceable && !pathFinder.WillBlockPath(coordinates));       
     }
     public void CheckTile()
     {  
