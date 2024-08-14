@@ -20,7 +20,7 @@ public class EnemyMover : MonoBehaviour
     Enemy enemy;
     List<GameObject> colliderCounts;
     public bool fromOther;
-    Vector2Int tempPosition;
+    Vector3 tempPosition;
     float tempTravelPercent = 0f;
     int currentWaypoint;
     public int CurrentWaypoint { get { return currentWaypoint; } }
@@ -91,23 +91,16 @@ void RecalculatePath(bool resetPath)
     }
     else
     {   
-        transform.position = gridManager.GetPostitionFromCoordinates(tempPosition);
+        transform.position = tempPosition;
         fromOther = false;
         RecalculatePath(false);
     }
  }
 
- public void TempPosition(Vector3 destroyPositionWaypoint, float travelPercentDestroyed)
+ public void TempPosition(Vector3 spawnLocation)
  {  
     fromOther = true;
-    tempPosition = gridManager.GetCoordinatesFromPosition(destroyPositionWaypoint);
-    tempTravelPercent = travelPercentDestroyed;
-    // int tempStartPosition;
-
-    // if(tempPosition-1 < 0) {tempStartPosition = 0;}
-    // else{tempStartPosition = tempPosition -1;}
-
-    // transform.position = Vector3.Lerp(path[tempStartPosition].transform.position, path[tempPosition].transform.position,tempTravelPercent);
+    tempPosition = spawnLocation;
  }
 
   void ReturnToStart()
@@ -125,7 +118,7 @@ void RecalculatePath(bool resetPath)
             currentWaypoint = i;
 
             float travelPercent = 0;
-            float elapsedTime= tempTravelPercent*startSpeed;
+            float elapsedTime = 0;
 
             transform.LookAt(endPosition);
 

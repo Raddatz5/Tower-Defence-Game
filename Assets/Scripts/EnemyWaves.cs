@@ -72,7 +72,7 @@ public class EnemyWaves : MonoBehaviour
             case 2: 
             // startWaveButton.SetActive(false);
             StartCoroutine(SpawnEnemies(wave2number,1.5f));   
-            StartCoroutine(SpawnSpecialEnemies1(1,wave2special,0));         
+            StartCoroutine(SpawnSpecialEnemies1(1,wave2special,1f));         
             break;
 
             case 3: 
