@@ -71,6 +71,8 @@ void DestroyEnemy()
             last4Positions.Add(nodePosition);
         } 
     }
+    string list = string.Join(", ", last4Positions.ToArray());
+    Debug.Log(list);
     if(enemyBigNumber != 0)
     {   
         objectPoolBig2.SpawnEnemyMini(enemyBigNumber, last4Positions, enemyMover.TravelPercentOnDestroy);  

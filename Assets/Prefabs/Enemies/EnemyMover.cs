@@ -21,7 +21,6 @@ public class EnemyMover : MonoBehaviour
     List<GameObject> colliderCounts;
     public bool fromOther;
     Vector3 tempPosition;
-    float tempTravelPercent = 0f;
     int currentWaypoint;
     public int CurrentWaypoint { get { return currentWaypoint; } }
     float travelPercentOnDestroy;
@@ -85,7 +84,6 @@ void RecalculatePath(bool resetPath)
  {
     if(!fromOther)
     {   
-        tempTravelPercent = 0f;
         ReturnToStart();
         RecalculatePath(true);
     }
@@ -130,8 +128,6 @@ void RecalculatePath(bool resetPath)
                 yield return new WaitForEndOfFrame();
                 elapsedTime += Time.deltaTime*speed;                               
             }
-            tempTravelPercent = 0f;
-           
         }
         
         StartCoroutine(DamageCastle());
