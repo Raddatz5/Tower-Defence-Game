@@ -102,14 +102,14 @@ void Update()
                     enemyMover = enemyPools[enemyBigNumber-1][i].GetComponent<EnemyMover>();
                         switch(miniCount)
                         {   case 0: 
-                            Vector3 spawnLocation = Vector3.Lerp(destroyedObjectWaypoint[0], destroyedObjectWaypoint[1], destroyedObjectTravel);
+                            Vector3 spawnLocation = Vector3.Lerp(destroyedObjectWaypoint[1], destroyedObjectWaypoint[0], destroyedObjectTravel);
                             enemyMover.TempPosition(spawnLocation);
                             miniCount++;
                             enemyPools[enemyBigNumber-1][i].SetActive(true);                            
                             break;
 
                             case 1:
-                            Vector3 spawnLocation2 = Vector3.Lerp(destroyedObjectWaypoint[1], destroyedObjectWaypoint[2], destroyedObjectTravel);
+                            Vector3 spawnLocation2 = Vector3.Lerp(destroyedObjectWaypoint[2], destroyedObjectWaypoint[1], destroyedObjectTravel);
                             enemyMover.TempPosition(spawnLocation2);
                             miniCount++;
                             enemyPools[enemyBigNumber-1][i].SetActive(true);                            

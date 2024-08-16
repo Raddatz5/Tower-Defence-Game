@@ -59,22 +59,20 @@ void DestroyEnemy()
     {   last4Positions.Clear();
         enemy.RewardGold();
         explosionPool?.SpawnExplosion(enemyBigNumber,transform.position);
-
-    for(int i = 0; i < 3; i ++)
-    {
-        if(enemyMover.CurrentWaypoint - i >= 0)
-        {   Vector3 nodePosition = gridManager.GetPostitionFromCoordinates(enemyMover.Path[enemyMover.CurrentWaypoint - i].coordinates);
-            last4Positions.Add(nodePosition);
-        }
-        else
-        {   Vector3 nodePosition = gridManager.GetPostitionFromCoordinates(enemyMover.Path[0].coordinates);
-            last4Positions.Add(nodePosition);
-        } 
-    }
-    string list = string.Join(", ", last4Positions.ToArray());
-    Debug.Log(list);
     if(enemyBigNumber != 0)
-    {   
+    {   for(int i = 0; i < 3; i ++)
+        {
+            if(enemyMover.CurrentWaypoint - i >= 0)
+            {   Vector3 nodePosition = gridManager.GetPostitionFromCoordinates(enemyMover.Path[enemyMover.CurrentWaypoint - i].coordinates);
+                last4Positions.Add(nodePosition);
+            }
+            else
+            {   Vector3 nodePosition = gridManager.GetPostitionFromCoordinates(enemyMover.Path[0].coordinates);
+                last4Positions.Add(nodePosition);
+            } 
+        }
+            string list = string.Join(", ", last4Positions.ToArray());
+            Debug.Log($"{transform.position}, {enemyMover.TravelPercentOnDestroy},{list}");
         objectPoolBig2.SpawnEnemyMini(enemyBigNumber, last4Positions, enemyMover.TravelPercentOnDestroy);  
     }
     gameObject.SetActive(false);
