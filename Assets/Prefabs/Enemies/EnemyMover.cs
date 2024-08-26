@@ -76,7 +76,7 @@ void RecalculatePath(bool resetPath)
         StopAllCoroutines();
         path.Clear();
         path = pathFinder.GetNewPath(coordinates);
-        StartCoroutine(FollowPath());
+        StartCoroutine(FollowPath(CheckNextTwoTiles()));
         
     }
     
@@ -106,9 +106,9 @@ void RecalculatePath(bool resetPath)
         transform.position = gridManager.GetPostitionFromCoordinates(pathFinder.StartCoordinates);
     }
 
-    IEnumerator FollowPath()
+    IEnumerator FollowPath(int start)
     {   
-        for (int i = 1; i < path.Count; i++)
+        for (int i = start; i < path.Count; i++)
         {
             Vector3 startPosition = transform.position;
             Vector3 endPosition = gridManager.GetPostitionFromCoordinates(path[i].coordinates);
@@ -220,5 +220,22 @@ void UpdateSpeed()
     {
         yield return new WaitForSeconds(0.25f);
         speed = 0f;
+    }
+
+    int CheckNextTwoTiles()
+    {
+        Vector3 target1 = (gridManager.GetPostitionFromCoordinates(path[1].coordinates) - transform.position).normalized;
+        Vector3 target2 = (gridManager.GetPostitionFromCoordinates(path[2].coordinates) - transform.position).normalized;
+        float angle1 = Vector3.Angle(target1, transform.forward);
+        float angle2 = Vector3.Angle(target2, transform.forward);
+
+        if(angle1 < angle2)
+        {
+            return 2;
+        }
+        else
+        {
+            return 1;
+        }
     }
 }
