@@ -715,18 +715,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a252f4721a6e8c64980f323988830f57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   startSpeed: 2.1
   speed: 1
   fromOther: 0
-  tempPosition: 0
+  attackSpeed: 1
+  attackDamage: 10
 --- !u!114 &6618059130775642437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -776,7 +769,7 @@ Rigidbody:
     m_Bits: 1024
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 320
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
@@ -797,7 +790,7 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 320
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
