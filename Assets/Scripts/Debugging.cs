@@ -18,7 +18,7 @@ public class Debugging : MonoBehaviour
             switch(speedIndex)
             {
                 case 0: originalTimeScale = Time.timeScale;
-                        Time.timeScale = Time.timeScale*4;
+                        Time.timeScale = Time.timeScale*0.05f;
                         speedIndex++;
                         break;
 

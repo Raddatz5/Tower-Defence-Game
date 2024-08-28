@@ -22,6 +22,8 @@ public class PathFinder : MonoBehaviour
     Vector2Int[] directions = { Vector2Int.up, Vector2Int.down, Vector2Int.right, Vector2Int.left, };
     GridManager gridManager;
     Dictionary<Vector2Int, Node> grid = new Dictionary<Vector2Int, Node>();
+    Vector2Int coordinatesNewTower;
+    public Vector2Int CoordinatesNewTower {get { return coordinatesNewTower; } }
 
     void Awake()
     {
@@ -144,6 +146,11 @@ public class PathFinder : MonoBehaviour
  public void NotifyReceivers()
  {
     BroadcastMessage("RecalculatePath", false, SendMessageOptions.DontRequireReceiver);
+ }
+
+ public void UpdateCoordinatePlaceholder(Vector2Int coordinates)
+ {
+    coordinatesNewTower = coordinates;
  }
 
 }

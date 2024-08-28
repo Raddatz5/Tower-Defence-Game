@@ -83,6 +83,7 @@ public class Waypoint : MonoBehaviour
                     {
                         whatTowerIsOnMe.transform.parent = transform; 
                     }
+                    pathFinder.UpdateCoordinatePlaceholder(coordinates);
                     gold.Withdraw(goldCost1);
                     isPlaceable = false;
                     gridManager.BlockNode(coordinates);
@@ -98,8 +99,11 @@ public class Waypoint : MonoBehaviour
         }
     public void MakePlaceable()
     {
-        gridManager.UnBlockNode(coordinates);
-        pathFinder.NotifyReceivers();
+        if(!isWall)
+        {
+            gridManager.UnBlockNode(coordinates);
+            pathFinder.NotifyReceivers();
+        }
         isPlaceable = true;
     }
     

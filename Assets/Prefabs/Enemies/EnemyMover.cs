@@ -35,7 +35,7 @@ public class EnemyMover : MonoBehaviour
     [SerializeField] float attackDamage = 10f;
     PathFinder pathFinder;
     GridManager gridManager;
-
+    float distanceBetweenPoints = 0f;
 
     
      private void Awake()
@@ -64,19 +64,43 @@ public class EnemyMover : MonoBehaviour
 void RecalculatePath(bool resetPath)
     {   
         Vector2Int coordinates = new Vector2Int();
+        int startSpot = 1;
+        
 
         if (resetPath)
         {
             coordinates = pathFinder.StartCoordinates;
         }
         else 
-        {
-            coordinates = gridManager.GetCoordinatesFromPosition(transform.position);
+        {    
+            if(pathFinder.CoordinatesNewTower == path[currentWaypoint].coordinates)
+            {
+                // if(travelPercentOnDestroy < 0.5f)
+                // {
+                    coordinates = gridManager.GetCoordinatesFromPosition(transform.position);
+                    startSpot = 2; 
+                    Debug.Log("My target got taken");
+                }
+                else
+                {   
+                    coordinates = path[currentWaypoint].coordinates;
+                  
+            //         // int temp = currentWaypoint;
+            //         // if(currentWaypoint - 1 <=0)
+            //         // {
+            //         //      temp = 1;
+            //         // }
+                    
+                    startSpot = 0;
+                }
+                
+            // }
+           
         }
         StopAllCoroutines();
         path.Clear();
         path = pathFinder.GetNewPath(coordinates);
-        StartCoroutine(FollowPath(CheckNextTwoTiles()));
+        StartCoroutine(FollowPath(startSpot));
         
     }
     
@@ -114,6 +138,7 @@ void RecalculatePath(bool resetPath)
             Vector3 endPosition = gridManager.GetPostitionFromCoordinates(path[i].coordinates);
             targetPosition = endPosition;
             currentWaypoint = i;
+            distanceBetweenPoints = Vector3.Distance(startPosition, endPosition);
 
             float travelPercent = 0;
             float elapsedTime = 0;
@@ -122,7 +147,7 @@ void RecalculatePath(bool resetPath)
 
             while (travelPercent < 1)
             {   
-                travelPercent = elapsedTime/startSpeed;
+                travelPercent = elapsedTime/startSpeed/distanceBetweenPoints*10.10f;
                 travelPercentOnDestroy = travelPercent;
                 rb.MovePosition(Vector3.Lerp(startPosition, endPosition, travelPercent));
                 yield return new WaitForEndOfFrame();
@@ -222,20 +247,20 @@ void UpdateSpeed()
         speed = 0f;
     }
 
-    int CheckNextTwoTiles()
-    {
-        Vector3 target1 = (gridManager.GetPostitionFromCoordinates(path[1].coordinates) - transform.position).normalized;
-        Vector3 target2 = (gridManager.GetPostitionFromCoordinates(path[2].coordinates) - transform.position).normalized;
-        float angle1 = Vector3.Angle(target1, transform.forward);
-        float angle2 = Vector3.Angle(target2, transform.forward);
+//     int CheckNextTwoTiles()
+//     {
+//         Vector3 target1 = (gridManager.GetPostitionFromCoordinates(path[1].coordinates) - transform.position).normalized;
+//         Vector3 target2 = (gridManager.GetPostitionFromCoordinates(path[2].coordinates) - transform.position).normalized;
+//         float angle1 = Vector3.Angle(target1, transform.forward);
+//         float angle2 = Vector3.Angle(target2, transform.forward);
 
-        if(angle1 < angle2)
-        {
-            return 2;
-        }
-        else
-        {
-            return 1;
-        }
-    }
+//         if(angle1 < angle2)
+//         {
+//             return 2;
+//         }
+//         else
+//         {
+//             return 1;
+//         }
+//     }
 }
