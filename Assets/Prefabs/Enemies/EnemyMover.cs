@@ -65,37 +65,23 @@ void RecalculatePath(bool resetPath)
     {   
         Vector2Int coordinates = new Vector2Int();
         int startSpot = 1;
-        
-
+           
         if (resetPath)
         {
             coordinates = pathFinder.StartCoordinates;
         }
         else 
-        {    
+        {    // CHecks if the node the enemy is heading to is where the tower just got placed and if so to go on a diagonal around it. If not just continue on. 
             if(pathFinder.CoordinatesNewTower == path[currentWaypoint].coordinates)
             {
-                // if(travelPercentOnDestroy < 0.5f)
-                // {
                     coordinates = gridManager.GetCoordinatesFromPosition(transform.position);
                     startSpot = 2; 
-                    Debug.Log("My target got taken");
-                }
-                else
-                {   
+            }
+            else
+            {   
                     coordinates = path[currentWaypoint].coordinates;
-                  
-            //         // int temp = currentWaypoint;
-            //         // if(currentWaypoint - 1 <=0)
-            //         // {
-            //         //      temp = 1;
-            //         // }
-                    
                     startSpot = 0;
-                }
-                
-            // }
-           
+            }           
         }
         StopAllCoroutines();
         path.Clear();
