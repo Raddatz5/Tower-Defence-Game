@@ -69,7 +69,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxEnemyHealth: 50
-  enemyBigNumber: 0
+  enemyBigNumber: 6
   currentEnemyHealth: 0
   healthBarVerticalOffset: 6.5
 --- !u!114 &2614486834168540549
@@ -545,3 +545,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotateSpeedInitial: 40
   rotateSpeedMultiplier: 1
+  rotateAroundMeFucker: {fileID: 2300486566830027931}

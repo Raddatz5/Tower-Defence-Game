@@ -12,6 +12,8 @@ public class ObjectPoolBig2 : MonoBehaviour
     [SerializeField] GameObject enemy3;
     [SerializeField] GameObject enemy4;
     [SerializeField] GameObject enemy5;
+    //shield enemy
+    [SerializeField] GameObject enemy6;
 
     List<GameObject> enemyIndex = new();
     
@@ -42,6 +44,7 @@ public class ObjectPoolBig2 : MonoBehaviour
         enemyIndex.Add(enemy3);
         enemyIndex.Add(enemy4);
         enemyIndex.Add(enemy5);
+        enemyIndex.Add(enemy6);
     }
 
     private void PopulatePool()

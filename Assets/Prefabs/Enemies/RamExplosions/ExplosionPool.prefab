@@ -51,4 +51,5 @@ MonoBehaviour:
   ramExplosion4: {fileID: 5272117456978791653, guid: b750402c557d38f45bacc30fd629d402, type: 3}
   ramExplosion5: {fileID: 5272117456978791653, guid: b750402c557d38f45bacc30fd629d402, type: 3}
   ramExplosion6: {fileID: 5272117456978791653, guid: b750402c557d38f45bacc30fd629d402, type: 3}
+  shieldExplosion: {fileID: 5272117456978791653, guid: b750402c557d38f45bacc30fd629d402, type: 3}
   knightExplosion: {fileID: 5272117456978791653, guid: b750402c557d38f45bacc30fd629d402, type: 3}

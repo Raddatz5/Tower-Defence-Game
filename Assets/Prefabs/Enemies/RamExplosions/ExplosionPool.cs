@@ -11,6 +11,7 @@ public class ExplosionPool : MonoBehaviour
    [SerializeField] GameObject ramExplosion4;
    [SerializeField] GameObject ramExplosion5;
    [SerializeField] GameObject ramExplosion6;
+   [SerializeField] GameObject shieldExplosion;
    [SerializeField] GameObject knightExplosion;
    List<GameObject> explosionIndex = new();
    GameObject[][] explosionPools;
@@ -30,6 +31,8 @@ void CreateExplosionIndex()
     explosionIndex.Add(ramExplosion4);
     explosionIndex.Add(ramExplosion5);
     explosionIndex.Add(ramExplosion6);
+    explosionIndex.Add(shieldExplosion);
+    explosionIndex.Add(knightExplosion);
     
 }
    void PopulatePool()

@@ -6,20 +6,34 @@ public class ShieldRotate : MonoBehaviour
 {   
     [SerializeField] float rotateSpeedInitial;
     [SerializeField] float rotateSpeedMultiplier;
-    Transform center;
+    [SerializeField] Transform rotateAroundMeFucker;
+    Quaternion offsetRotation;
+    Quaternion initialRotation;
     Vector3 offset;
     
     
     void Start()
     {
-        center = GetComponentInParent<Transform>().transform;
-        offset = transform.position - center.position;
+        // center = GetComponentInParent<Transform>().transform;
+        offset = transform.position - rotateAroundMeFucker.position;
+        initialRotation = transform.rotation; 
+        offsetRotation = initialRotation;      
     }
 
     
-    void FixedUpdate()
+    void Update()
     {
-        transform.Rotate(center.up,rotateSpeedInitial*Time.deltaTime*rotateSpeedMultiplier);
-        // transform.position = center.position + offset;
+        Orbit();
+
+    }
+
+    private void Orbit()
+    {
+        transform.position = rotateAroundMeFucker.position + offset;
+        transform.rotation = offsetRotation;
+        float angle = rotateSpeedInitial * Time.deltaTime * rotateSpeedMultiplier;
+        transform.RotateAround(rotateAroundMeFucker.position, rotateAroundMeFucker.up, angle);
+        offset = transform.position - rotateAroundMeFucker.position;
+        offsetRotation = transform.rotation;
     }
 }
