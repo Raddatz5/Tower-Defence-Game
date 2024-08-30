@@ -36,6 +36,8 @@ public class EnemyMover : MonoBehaviour
     PathFinder pathFinder;
     GridManager gridManager;
     float distanceBetweenPoints = 0f;
+    List<Vector3> last4Positions = new();
+    public List<Vector3> Last4Positions { get { return last4Positions;}}
 
     
      private void Awake()
@@ -49,7 +51,7 @@ public class EnemyMover : MonoBehaviour
     }
 
     void OnEnable()
-    {   
+    {   last4Positions.Clear();
         castleHealth = FindAnyObjectByType<CastleHealth>();
         enemyHealth = GetComponent<EnemyHealth>();
         colliderCounts.Clear();
@@ -62,6 +64,7 @@ public class EnemyMover : MonoBehaviour
         UpdateList();
     }
 void RecalculatePath(bool resetPath)
+    {   if(gridManager.GetCoordinatesFromPosition(transform.position) != pathFinder.DestinationCoordinates)
     {   
         Vector2Int coordinates = new Vector2Int();
         int startSpot = 1;
@@ -71,23 +74,31 @@ void RecalculatePath(bool resetPath)
             coordinates = pathFinder.StartCoordinates;
         }
         else 
-        {    // CHecks if the node the enemy is heading to is where the tower just got placed and if so to go on a diagonal around it. If not just continue on. 
+        {    // Checks if the node the enemy is heading to is where the tower just got placed and if so to go on a diagonal around it. If not just continue on. 
             if(pathFinder.CoordinatesNewTower == path[currentWaypoint].coordinates)
             {
                     coordinates = gridManager.GetCoordinatesFromPosition(transform.position);
                     startSpot = 2; 
+                    // Debug.Log("Thats my spot");
             }
             else
-            {   
+            {   if(fromOther)
+                {
+                    coordinates = gridManager.GetCoordinatesFromPosition(transform.position);
+                }
+                else
+                {
                     coordinates = path[currentWaypoint].coordinates;
                     startSpot = 0;
-            }           
+                }
+            }
+            fromOther = false;         
         }
         StopAllCoroutines();
         path.Clear();
         path = pathFinder.GetNewPath(coordinates);
         StartCoroutine(FollowPath(startSpot));
-        
+    }
     }
     
  void FindStart()
@@ -100,7 +111,6 @@ void RecalculatePath(bool resetPath)
     else
     {   
         transform.position = tempPosition;
-        fromOther = false;
         RecalculatePath(false);
     }
  }
@@ -125,6 +135,12 @@ void RecalculatePath(bool resetPath)
             targetPosition = endPosition;
             currentWaypoint = i;
             distanceBetweenPoints = Vector3.Distance(startPosition, endPosition);
+
+            last4Positions.Add(transform.position);
+            if(last4Positions.Count > 3)
+            {
+                last4Positions.RemoveAt(0);
+            }
 
             float travelPercent = 0;
             float elapsedTime = 0;

@@ -109,7 +109,18 @@ void Update()
                             break;
 
                             case 1:
-                            Vector3 spawnLocation2 = Vector3.Lerp(destroyedObjectWaypoint[2], destroyedObjectWaypoint[1], destroyedObjectTravel);
+                            Vector3 spawnLocation2;
+                            if(destroyedObjectWaypoint[2] != destroyedObjectWaypoint[1])
+                                {
+                                    spawnLocation2 = Vector3.Lerp(destroyedObjectWaypoint[2], destroyedObjectWaypoint[1], destroyedObjectTravel);
+                                }
+                            else
+                                {   Debug.Log("The numbers were stacked");
+                                    Vector3 spawnLocation1 = Vector3.Lerp(destroyedObjectWaypoint[1], destroyedObjectWaypoint[0], destroyedObjectTravel);
+                                    Vector3 normDirection = (destroyedObjectWaypoint[1]-destroyedObjectWaypoint[0]).normalized;
+                                    normDirection.z -= 10;
+                                    spawnLocation2 = spawnLocation1+normDirection;
+                                }
                             enemyMover.TempPosition(spawnLocation2);
                             miniCount++;
                             enemyPools[enemyBigNumber-1][i].SetActive(true);                            
