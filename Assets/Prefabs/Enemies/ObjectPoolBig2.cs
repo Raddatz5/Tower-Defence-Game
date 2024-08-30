@@ -94,7 +94,7 @@ void Update()
     public void SpawnEnemyMini(int enemyBigNumber, List<Vector3> destroyedObjectWaypoint, float destroyedObjectTravel)
     {
         int miniCount = 0;
-        
+        destroyedObjectWaypoint.Reverse();
         for(int i = 0; i < poolSize; i++)
             {
                 if(!enemyPools[enemyBigNumber-1][i].activeInHierarchy && miniCount<numberOfMini)

@@ -136,7 +136,11 @@ void RecalculatePath(bool resetPath)
             currentWaypoint = i;
             distanceBetweenPoints = Vector3.Distance(startPosition, endPosition);
 
-            last4Positions.Add(transform.position);
+            // add the next postiion to the list to track where its been, for mini spawns
+            if(!last4Positions.Contains(gridManager.GetPostitionFromCoordinates(path[i].coordinates)))
+            {
+                last4Positions.Add(gridManager.GetPostitionFromCoordinates(path[i].coordinates));
+            }
             if(last4Positions.Count > 3)
             {
                 last4Positions.RemoveAt(0);

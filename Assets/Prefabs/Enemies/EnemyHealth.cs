@@ -69,8 +69,6 @@ void DestroyEnemy()
     transform.position = transform.parent.position;
      }
 
-
-
     public virtual void UpdateHealth()
     {
         if (_targetHealthBar != null)
