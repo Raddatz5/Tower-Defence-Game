@@ -40,12 +40,13 @@ public class LookatEnemy : MonoBehaviour
     bool boolEnemyInRange = false;
     Upgrade upgrade;
     float previousRangeAfterBuff;
+    ArrowManager arrowManager;
 
 
     void Start()
-    {
-        particleSystemA = GetComponentsInChildren<ParticleSystem>();
-        shootingFeedbackl = GetComponentInChildren<ShootingFeedback>();
+    {   arrowManager = GetComponentInChildren<ArrowManager>();
+        // particleSystemA = GetComponentsInChildren<ParticleSystem>();
+        // shootingFeedbackl = GetComponentInChildren<ShootingFeedback>();
         towerObjectPool = FindObjectOfType<TowerObjectPool>();
         capsuleCollider = GetComponent<CapsuleCollider>();
     }
@@ -62,6 +63,7 @@ void OnEnable()
     {
         CheckForBuffs();
         UpdateList();
+        UpdateTimer();
     }
 
 void OnTriggerEnter(Collider other) 
@@ -104,9 +106,9 @@ void UpdateList()
         }
     else {boolEnemyInRange = false;
             target = null;
-            weapon.LookAt(lastTargetPosition, Vector3.up*5);
-            float eulerAngleOffset = -10f; 
-            weapon.Rotate(Vector3.right, eulerAngleOffset, Space.Self);
+            weapon.LookAt(lastTargetPosition, Vector3.up*3);
+            // float eulerAngleOffset = -10f; 
+            // weapon.Rotate(Vector3.right, eulerAngleOffset, Space.Self);
             Attack(false);
            }
 }
@@ -130,9 +132,9 @@ void UpdateList()
             {       
                 if(!coroutineIsLerping)
                     {
-                        weapon.LookAt(target.transform, Vector3.up*5);
-                        float eulerAngleOffset = -7f; 
-                        weapon.Rotate(Vector3.right, eulerAngleOffset, Space.Self);
+                        weapon.LookAt(target.transform, Vector3.up*1);
+                        // float eulerAngleOffset = -7f; 
+                        // weapon.Rotate(Vector3.right, eulerAngleOffset, Space.Self);
                     }
                     Attack(true);
                     yield return null; 
@@ -176,12 +178,12 @@ void UpdateList()
     }
     void Attack(bool isActive)
     {   
-        if(!coroutineShooting && isActive && !coroutineIsLerping)
+        if(!coroutineShooting && isActive)
             {   
                 if(Vector3.Distance(target.transform.position,transform.position) >= range)
                     {StartCoroutine(Shooting());}
-                else if(CheckParticleCount() == 0 )
-                    {StartCoroutine(Shooting());}
+                // else if(CheckParticleCount() == 0 )
+                //     {StartCoroutine(Shooting());}
             }
         
         
@@ -190,18 +192,19 @@ void UpdateList()
 IEnumerator Shooting()
 {  
     coroutineShooting = true;
-    foreach (ParticleSystem partSys in particleSystemA)
-    {
-        partSys.Play();
-    }
-    bool hasPlayedOnce = false;
-    if(!hasPlayedOnce)
-    {
-        shootingFeedbackl.ShootFeedback();
-        hasPlayedOnce = true;
-    }
-   
+    // foreach (ParticleSystem partSys in particleSystemA)
+    // {
+    //     partSys.Play();
+    // }
+    // bool hasPlayedOnce = false;
+    // if(!hasPlayedOnce)
+    // {
+    //     shootingFeedbackl.ShootFeedback();
+    //     hasPlayedOnce = true;
+    // }
+    arrowManager.Fire(target);
      yield return new WaitForSeconds(1f);
+     Debug.Log("Fire! at "+Time.time);
      coroutineShooting = false;
            
 }
@@ -248,15 +251,15 @@ IEnumerator Shooting()
     StartCoroutine(AimWeapon());
     coroutineIsWaitingPlaying = false;
 }
-int CheckParticleCount()
- {          
-        activeParticleCount = 0;
-        foreach(ParticleSystem ps in particleSystemA)
-        {
-            activeParticleCount += ps.particleCount;
-        }
-        return activeParticleCount;
- }
+// int CheckParticleCount()
+//  {          
+//         activeParticleCount = 0;
+//         foreach(ParticleSystem ps in particleSystemA)
+//         {
+//             activeParticleCount += ps.particleCount;
+//         }
+//         return activeParticleCount;
+//  }
 
 }
 

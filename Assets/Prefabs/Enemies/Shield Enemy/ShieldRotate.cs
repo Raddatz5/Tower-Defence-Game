@@ -6,21 +6,19 @@ public class ShieldRotate : MonoBehaviour
 {   
     [SerializeField] float rotateSpeedInitial;
     [SerializeField] float rotateSpeedMultiplier;
-    [SerializeField] Transform rotateAroundMeFucker;
+    Transform rotateAroundMe;
     Quaternion offsetRotation;
     Quaternion initialRotation;
     Vector3 offset;
     
-    
-    void Start()
+    public void AssignRotation(Transform rotationAxis)
     {
-        // center = GetComponentInParent<Transform>().transform;
-        offset = transform.position - rotateAroundMeFucker.position;
+        rotateAroundMe = rotationAxis;
+        offset = transform.position - rotateAroundMe.position;
         initialRotation = transform.rotation; 
-        offsetRotation = initialRotation;      
+        offsetRotation = initialRotation;
     }
-
-    
+     
     void Update()
     {
         Orbit();
@@ -29,11 +27,11 @@ public class ShieldRotate : MonoBehaviour
 
     private void Orbit()
     {
-        transform.position = rotateAroundMeFucker.position + offset;
+        transform.position = rotateAroundMe.position + offset;
         transform.rotation = offsetRotation;
         float angle = rotateSpeedInitial * Time.deltaTime * rotateSpeedMultiplier;
-        transform.RotateAround(rotateAroundMeFucker.position, rotateAroundMeFucker.up, angle);
-        offset = transform.position - rotateAroundMeFucker.position;
+        transform.RotateAround(rotateAroundMe.position, rotateAroundMe.up, angle);
+        offset = transform.position - rotateAroundMe.position;
         offsetRotation = transform.rotation;
     }
 }

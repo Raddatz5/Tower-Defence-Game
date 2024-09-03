@@ -59,7 +59,7 @@ void DestroyEnemy()
     {   
         enemy.RewardGold();
         explosionPool?.SpawnExplosion(enemyBigNumber,transform.position);
-    if(enemyBigNumber != 0 && enemyBigNumber < 7)
+    if(enemyBigNumber != 0 && enemyBigNumber < 6)
     {   last4Positions = enemyMover.Last4Positions;
             string list = string.Join(", ", last4Positions.ToArray());
             Debug.Log($"{transform.position}, {enemyMover.TravelPercentOnDestroy},{list}");

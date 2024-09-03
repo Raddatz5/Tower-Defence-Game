@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System.Numerics;
 using Vector3 = UnityEngine.Vector3;
+using Unity.VisualScripting;
 
 public class DamageAmount : MonoBehaviour
 {
@@ -35,5 +36,7 @@ void Start()
                   else {enemyHealth.ApplyDamage(baseDamage);}              
                }
         }
+        //TO DO: spawn bolt particle effect
+        gameObject.SetActive(false);
    }
 }
