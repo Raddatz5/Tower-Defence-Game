@@ -35,8 +35,10 @@ public class ArrowManager : MonoBehaviour
         for (int i = 0; i < pool.Length; i++)
         {
             if(!pool[i].activeSelf)
-            {
+            {   Arrow arrow;
                 pool[i].SetActive(true);
+                arrow = pool[i].GetComponent<Arrow>();
+                arrow.WhatsMyTarget(target);
                 break;
             }
         }

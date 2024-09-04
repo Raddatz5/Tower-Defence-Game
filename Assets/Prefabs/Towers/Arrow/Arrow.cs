@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-    GameObject target;
+    [SerializeField]GameObject target;
     float speed;
     ArrowManager arrowManager;
-    void Start()
+    Vector3 initialPosition;
+    void Awake()
     {
         arrowManager = GetComponentInParent<ArrowManager>();
     }
@@ -16,22 +17,27 @@ public class Arrow : MonoBehaviour
         {
         speed = arrowManager.Speed;
         target = arrowManager.TempTarget;
-        StartCoroutine(Follow());
+        transform.position = arrowManager.transform.position;
         }
+      
     }
 
-    IEnumerator Follow()
-    {   
-        while(true)
-        {   
-            transform.LookAt(target.transform.position);
-            transform.position += transform.forward * speed * Time.deltaTime;
-            yield return null;
-        }
+      void Update()
+      {     
+            initialPosition = transform.position;
+            if(target != null)
+            {
+                transform.LookAt(target.transform.position + new Vector3(0,3f,0));
+            }
+            transform.position = initialPosition + transform.forward * speed * Time.deltaTime;        
     }
 
     void OnDisable()
     {
         StopAllCoroutines();
     }
+    public void WhatsMyTarget(GameObject targetRef)
+    {
+        target = targetRef;
+    }   
   }

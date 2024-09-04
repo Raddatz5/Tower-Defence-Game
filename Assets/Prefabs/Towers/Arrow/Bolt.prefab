@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 5970034036004984201}
   - component: {fileID: 219752602257936606}
   - component: {fileID: -9038755968933085466}
+  - component: {fileID: 4921491424698286986}
   m_Layer: 0
   m_Name: Bolt
   m_TagString: Untagged
@@ -129,6 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abaac0167ef937e4ea85b952eae2d84d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
 --- !u!114 &-9038755968933085466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,3 +144,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseDamage: 10
+--- !u!135 &4921491424698286986
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6454224513027657523}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 320
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 1696
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 2}

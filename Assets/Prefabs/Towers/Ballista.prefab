@@ -80,6 +80,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapon: {fileID: 8629707988790543285}
   target: {fileID: 0}
+  attackTimer: 1
   rangeAfterBuff: 0
   targetChangeSpeed: 6
   coroutineIsLerping: 0
@@ -259,11 +260,12 @@ Transform:
   m_GameObject: {fileID: 3280549733352837886}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3144582324300694500}
+  - {fileID: 4983265778489337403}
   m_Father: {fileID: 3049131714819384361}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6000094631329315798
@@ -292,11 +294,11 @@ Transform:
   m_GameObject: {fileID: 6000094631329315798}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.16, z: 0}
-  m_LocalScale: {x: 0.16, y: 0.16, z: 0.16}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3144582324300694500}
+  m_Father: {fileID: 8629707988790543285}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2735050159876112393
 MonoBehaviour:
@@ -312,7 +314,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolSize: 5
   arrow: {fileID: 6454224513027657523, guid: 7362a7dc6d14d7748953ae63138db72f, type: 3}
-  speed: 10
+  speed: 40
 --- !u!1 &6131056645070147807
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,11 +342,10 @@ Transform:
   m_GameObject: {fileID: 6131056645070147807}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 6.25, y: 6.25, z: 6.25}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 4983265778489337403}
+  m_Children: []
   m_Father: {fileID: 8629707988790543285}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &249074202148633262
