@@ -14,11 +14,14 @@ public class DamageAmount : MonoBehaviour
     TowerObjectPool towerObjectPool;
     Upgrade upgrade;
 
-void Start()
+    Arrow arrow;
+
+void Awake()
 {
    towerObjectPool = FindObjectOfType<TowerObjectPool>();
    upgrade = GetComponentInParent<Upgrade>();
    baseDamage = upgrade.BaseDamage;
+   arrow = GetComponent<Arrow>();
 }
 
    void OnTriggerEnter(Collider other) 
@@ -37,6 +40,6 @@ void Start()
                }
         }
         //TO DO: spawn bolt particle effect
-        gameObject.SetActive(false);
+        arrow.ReparentAndDisable();
    }
 }

@@ -12,11 +12,13 @@ public class ArrowManager : MonoBehaviour
     public float Speed { get { return speed;}}
     GameObject tempTarget;
     public GameObject TempTarget { get { return tempTarget; } }
+    Transform tempParent;
        
     
     void Awake()
     {
         PopulatePool();
+        tempParent = FindAnyObjectByType<Parent>().transform;
     }
 
     private void PopulatePool()
@@ -37,6 +39,7 @@ public class ArrowManager : MonoBehaviour
             if(!pool[i].activeSelf)
             {   Arrow arrow;
                 pool[i].SetActive(true);
+                pool[i].transform.SetParent(tempParent,true);
                 arrow = pool[i].GetComponent<Arrow>();
                 arrow.WhatsMyTarget(target);
                 break;

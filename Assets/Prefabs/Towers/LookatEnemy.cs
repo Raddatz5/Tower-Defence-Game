@@ -26,6 +26,7 @@ public class LookatEnemy : MonoBehaviour
     float rangeOfBuff;
     float rangeModFromBuff;
     List<GameObject> numberOfEnemies = new();
+    List<GameObject> enemiesToRemove = new();
     Vector3 lastTargetPosition;
     [SerializeField] float targetChangeSpeed = 3f;
     bool coroutineIsWaitingPlaying = false;
@@ -79,53 +80,71 @@ void OnTriggerExit(Collider other)
 }
 
 void UpdateList()
-{   
-    for(int i = 0;i< numberOfEnemies.Count;i++)
     {
-        if(!numberOfEnemies[i].activeSelf)
+        RemoveInactiveEnemies();
+
+        if (numberOfEnemies.Count != 0)
         {
-            numberOfEnemies.Remove(numberOfEnemies[i]);
-        }
-    }
-   
-    if(numberOfEnemies.Count != 0)
-        {   boolEnemyInRange = true;
-            if(target == null)
-                {   closestEnemy = numberOfEnemies.OrderBy(enemy => Vector3.Distance(transform.position, enemy.transform.position)).FirstOrDefault();
-                    target = closestEnemy;
-                    ChangeTargetRotation(lastTargetPosition,target.transform);
-                    // StartCoroutine(AimWeapon());
-                 }
-            else if(target.activeSelf)
-                {    if(Vector3.Distance(transform.position,target.transform.position) > rangeAfterBuff)
-                    {
-                        target = null;
-                    }
-                    else if(!coroutineIsLerping)
-                    {
-                        weapon.LookAt(target.transform.position+new Vector3(0,3f,0));
-                        lastTargetPosition = target.transform.position;
-                    }                    
+            boolEnemyInRange = true;
+            if (target == null)
+            {
+                Debug.Log("Gettingnew target");
+                closestEnemy = numberOfEnemies.OrderBy(enemy => Vector3.Distance(transform.position, enemy.transform.position)).FirstOrDefault();
+                target = closestEnemy;
+                ChangeTargetRotation(lastTargetPosition, target.transform);
+                // StartCoroutine(AimWeapon());
+            }
+            else if (target.activeSelf)
+            {
+                if (!numberOfEnemies.Contains(target))
+                {
+                    Debug.Log("I lost the target");
+                    target = null;
                 }
-            else if(!target.activeSelf)
+                else if (!coroutineIsLerping)
+                {
+                    weapon.LookAt(target.transform.position + new Vector3(0, 3f, 0));
+                    lastTargetPosition = target.transform.position;
+                    Attack(true);
+                }
+            }
+            else
             {
                 target = null;
             }
-                Attack(true);
-            
+
+
             // else if(target != closestEnemy)
             //     {
             //         KeepTrackOfTarget();
             //     }
         }
-    else {boolEnemyInRange = false;
+        else
+        {
+            boolEnemyInRange = false;
             target = null;
-            weapon.LookAt(lastTargetPosition, Vector3.up*3);
-            float eulerAngleOffset = -8f; 
+            weapon.LookAt(lastTargetPosition, Vector3.up * 3);
+            float eulerAngleOffset = -8f;
             weapon.Rotate(Vector3.right, eulerAngleOffset, Space.Self);
             Attack(false);
-           }
-}
+        }
+    }
+
+    private void RemoveInactiveEnemies()
+    {
+        enemiesToRemove.Clear();
+        for (int i = 0; i < numberOfEnemies.Count; i++)
+        {
+            if (!numberOfEnemies[i].activeSelf)
+            {
+                enemiesToRemove.Add(numberOfEnemies[i]);
+            }
+        }
+        foreach (var enemy in enemiesToRemove)
+        {
+            numberOfEnemies.Remove(enemy);
+        }
+    }
 
     // private void KeepTrackOfTarget()
     // {                    
@@ -140,21 +159,21 @@ void UpdateList()
     //         }              
     // }
 
-//   IEnumerator AimWeapon()
-//     {      
-//         while(boolEnemyInRange)
-//             {       
-//                 if(!coroutineIsLerping)
-//                     {
-//                         weapon.LookAt(target.transform, Vector3.up*1);
-//                         float eulerAngleOffset = -7f; 
-//                         weapon.Rotate(Vector3.right, eulerAngleOffset, Space.Self);
-//                     }
-//                     Attack(true);
-//                     yield return null; 
-//             }
-           
-//     }
+    //   IEnumerator AimWeapon()
+    //     {      
+    //         while(boolEnemyInRange)
+    //             {       
+    //                 if(!coroutineIsLerping)
+    //                     {
+    //                         weapon.LookAt(target.transform, Vector3.up*1);
+    //                         float eulerAngleOffset = -7f; 
+    //                         weapon.Rotate(Vector3.right, eulerAngleOffset, Space.Self);
+    //                     }
+    //                     Attack(true);
+    //                     yield return null; 
+    //             }
+
+    //     }
 
 
     void ChangeTargetRotation(Vector3 lastTarget, Transform currentTarget)

@@ -312,9 +312,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85c0dbf81151c5e45a1a02f2d167b318, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolSize: 5
+  poolSize: 20
   arrow: {fileID: 6454224513027657523, guid: 7362a7dc6d14d7748953ae63138db72f, type: 3}
-  speed: 40
+  speed: 5
 --- !u!1 &6131056645070147807
 GameObject:
   m_ObjectHideFlags: 0
