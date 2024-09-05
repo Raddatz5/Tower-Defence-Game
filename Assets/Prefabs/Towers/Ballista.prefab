@@ -314,7 +314,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolSize: 20
   arrow: {fileID: 6454224513027657523, guid: 7362a7dc6d14d7748953ae63138db72f, type: 3}
-  speed: 5
+  speed: 40
 --- !u!1 &6131056645070147807
 GameObject:
   m_ObjectHideFlags: 0

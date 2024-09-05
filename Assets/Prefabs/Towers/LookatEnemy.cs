@@ -22,21 +22,16 @@ public class LookatEnemy : MonoBehaviour
     float range;
     [SerializeField] float rangeAfterBuff;
     public float RangeAfterBuff { get { return rangeAfterBuff; } }
-     ParticleSystem[] particleSystemA;
     float rangeOfBuff;
     float rangeModFromBuff;
     List<GameObject> numberOfEnemies = new();
     List<GameObject> enemiesToRemove = new();
     Vector3 lastTargetPosition;
     [SerializeField] float targetChangeSpeed = 3f;
-    bool coroutineIsWaitingPlaying = false;
     [SerializeField]bool coroutineIsLerping = false;
     Quaternion currentRotation;
     Quaternion lastTargetRotation;
     Quaternion targetRotation;
-    bool coroutineShooting = false;
-    ShootingFeedback shootingFeedbackl;
-    int activeParticleCount = 0;
     TowerObjectPool towerObjectPool;
     CapsuleCollider capsuleCollider;
     bool boolEnemyInRange = false;
@@ -48,8 +43,6 @@ public class LookatEnemy : MonoBehaviour
 
     void Start()
     {   arrowManager = GetComponentInChildren<ArrowManager>();
-        // particleSystemA = GetComponentsInChildren<ParticleSystem>();
-        // shootingFeedbackl = GetComponentInChildren<ShootingFeedback>();
         towerObjectPool = FindObjectOfType<TowerObjectPool>();
         capsuleCollider = GetComponent<CapsuleCollider>();
     }
@@ -92,7 +85,7 @@ void UpdateList()
                 closestEnemy = numberOfEnemies.OrderBy(enemy => Vector3.Distance(transform.position, enemy.transform.position)).FirstOrDefault();
                 target = closestEnemy;
                 ChangeTargetRotation(lastTargetPosition, target.transform);
-                // StartCoroutine(AimWeapon());
+
             }
             else if (target.activeSelf)
             {
@@ -113,11 +106,6 @@ void UpdateList()
                 target = null;
             }
 
-
-            // else if(target != closestEnemy)
-            //     {
-            //         KeepTrackOfTarget();
-            //     }
         }
         else
         {
@@ -146,35 +134,7 @@ void UpdateList()
         }
     }
 
-    // private void KeepTrackOfTarget()
-    // {                    
-    //         if(!coroutineIsWaitingPlaying)
-    //         {   if(!target.activeSelf)
-    //             {StartCoroutine(HoldTarget());}
-    //             else {StartCoroutine(HoldTarget());}
-    //         }
-    //         else if(coroutineIsWaitingPlaying && !target.activeSelf)
-    //         {          
-    //             StartCoroutine(HoldTarget());
-    //         }              
-    // }
-
-    //   IEnumerator AimWeapon()
-    //     {      
-    //         while(boolEnemyInRange)
-    //             {       
-    //                 if(!coroutineIsLerping)
-    //                     {
-    //                         weapon.LookAt(target.transform, Vector3.up*1);
-    //                         float eulerAngleOffset = -7f; 
-    //                         weapon.Rotate(Vector3.right, eulerAngleOffset, Space.Self);
-    //                     }
-    //                     Attack(true);
-    //                     yield return null; 
-    //             }
-
-    //     }
-
+    
 
     void ChangeTargetRotation(Vector3 lastTarget, Transform currentTarget)
     {   
@@ -213,33 +173,9 @@ void UpdateList()
             {   
                 isTimerRunning = true;
                 arrowManager.Fire(target);
-                Debug.Log("Fire! at "+Time.time);
-                // else if(CheckParticleCount() == 0 )
-                //     {StartCoroutine(Shooting());}
-            }
-        
-        
+            }    
     }
 
-// IEnumerator Shooting()
-// {  
-//     coroutineShooting = true;
-//     // foreach (ParticleSystem partSys in particleSystemA)
-//     // {
-//     //     partSys.Play();
-//     // }
-//     // bool hasPlayedOnce = false;
-//     // if(!hasPlayedOnce)
-//     // {
-//     //     shootingFeedbackl.ShootFeedback();
-//     //     hasPlayedOnce = true;
-//     // }
-//     arrowManager.Fire(target);
-//      yield return new WaitForSeconds(1f);
-//      Debug.Log("Fire! at "+Time.time);
-//      coroutineShooting = false;
-           
-// }
  void CheckForBuffs()
     {  
         capsuleCollider.radius = rangeAfterBuff;
@@ -273,24 +209,6 @@ void UpdateList()
                 }
             }
     }
-//     IEnumerator HoldTarget()
-// {   
-//     coroutineIsWaitingPlaying = true;
-//     yield return null;
-//     target = closestEnemy;
-//     ChangeTargetRotation(lastTargetPosition,target.transform);
-//     StartCoroutine(AimWeapon());
-//     coroutineIsWaitingPlaying = false;
-// }
-// int CheckParticleCount()
-//  {          
-//         activeParticleCount = 0;
-//         foreach(ParticleSystem ps in particleSystemA)
-//         {
-//             activeParticleCount += ps.particleCount;
-//         }
-//         return activeParticleCount;
-//  }
 
  void UpdateTimer()
  {

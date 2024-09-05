@@ -12,10 +12,10 @@ public class LookAtEnemyGatling : MonoBehaviour
 {
     [SerializeField] Transform weapon;
     [SerializeField] GameObject target = null;
+     [SerializeField] float attackTimer = 0.286f;
     [SerializeField] GameObject rotateMe;
     GameObject closestEnemy = null;
     float range = 20;
-    ParticleSystem particleSystemA;
     bool imShooting;
     [SerializeField] float rotationSpeed = 5f;
     float rangeOfBuff;
@@ -23,9 +23,9 @@ public class LookAtEnemyGatling : MonoBehaviour
     public float RangeAfterBuff{get{return rangeAfterBuff;}}
     float rangeModFromBuff;
     List<GameObject> numberOfEnemies = new();
+    List<GameObject> enemiesToRemove = new();
      Vector3 lastTargetPosition;
     [SerializeField] float targetChangeSpeed = 3f;
-    bool coroutineIsWaitingPlaying = false;
     [SerializeField]bool coroutineIsLerping = false;
     Quaternion currentRotation;
     Quaternion lastTargetRotation;
@@ -36,16 +36,19 @@ public class LookAtEnemyGatling : MonoBehaviour
     bool imRotating = false;
     Upgrade upgrade;
     float previousRangeAfterBuff;
+    ArrowManager arrowManager;
+    bool isTimerRunning = false;
+    float currentTimer;
+   ShootingGATFeedback shootingfeedback;
 
     void Start()
-    {
-        particleSystemA = GetComponentInChildren<ParticleSystem>();
-        lastTargetPosition = new Vector3(transform.position.x,transform.position.y,transform.position.z + 10f);
+    {   arrowManager = GetComponentInChildren<ArrowManager>();
         towerObjectPool = FindObjectOfType<TowerObjectPool>();
         capsuleCollider = GetComponent<CapsuleCollider>();
-        range = upgrade.BaseRange;
-        rangeAfterBuff = range;
-        previousRangeAfterBuff = rangeAfterBuff;
+        shootingfeedback = GetComponentInChildren<ShootingGATFeedback>();
+        // range = upgrade.BaseRange;
+        // rangeAfterBuff = range;
+        // previousRangeAfterBuff = rangeAfterBuff;
         Attack(false);
     }
 void OnEnable()
@@ -55,10 +58,12 @@ void OnEnable()
     range = upgrade.BaseRange;
     rangeAfterBuff = range;
     previousRangeAfterBuff = rangeAfterBuff;
+    currentTimer = attackTimer;
 }
 
     void Update()
     {   
+        UpdateTimer(); 
         CheckForBuffs();
         UpdateList();
     }
@@ -74,72 +79,51 @@ void OnTriggerExit(Collider other)
 
 void UpdateList()
 {   
-    for(int i = 0;i< numberOfEnemies.Count;i++)
-    {
-        if(!numberOfEnemies[i].activeSelf)
-        {
-            numberOfEnemies.Remove(numberOfEnemies[i]);
-        }
-    }
-   
+    RemoveInactiveEnemies();
+
     if(numberOfEnemies.Count != 0)
         {   boolEnemyInRange = true;
-            closestEnemy = numberOfEnemies.OrderBy(enemy => Vector3.Distance(transform.position, enemy.transform.position)).FirstOrDefault();
             if(target == null)
-                {
+                {   
+                    closestEnemy = numberOfEnemies.OrderBy(enemy => Vector3.Distance(transform.position, enemy.transform.position)).FirstOrDefault();
                     target = closestEnemy;
-                    StartCoroutine(AimWeapon());
+                    ChangeTargetRotation(lastTargetPosition, target.transform);
                  }
-            if(closestEnemy == target)
-            {   if(target.activeSelf)
+            else if (target.activeSelf)
+            {
+                if (!numberOfEnemies.Contains(target))
                 {
+                    target = null;
+                }
+                else if (!coroutineIsLerping)
+                {
+                    weapon.LookAt(target.transform.position);
                     lastTargetPosition = target.transform.position;
+                    Attack(true);
                 }
             }
-            else if(target != closestEnemy)
-                {
-                    KeepTrackOfTarget();
-                }
+            else
+            {
+                target = null;
+            }
         }
-    else {  boolEnemyInRange = false;
+    else {   boolEnemyInRange = false;
             target = null;
-            Attack(false);
             weapon.LookAt(lastTargetPosition);
+            float eulerAngleOffset = -8f;
+            weapon.Rotate(Vector3.right, eulerAngleOffset, Space.Self);
+            Attack(false);
             }
 }
 
-     private void KeepTrackOfTarget()
-    {                    
-            if(!coroutineIsWaitingPlaying)
-            {   if(!target.activeSelf)
-                {StartCoroutine(HoldTarget());}
-                else {StartCoroutine(HoldTarget());}
-            }
-            else if(coroutineIsWaitingPlaying && !target.activeSelf)
-            {          
-                StartCoroutine(HoldTarget());
-            }              
-    }
-
- IEnumerator AimWeapon()
-    {   
-        Attack(true);   
-        while(boolEnemyInRange)
-            {       if(!coroutineIsLerping)
-                    {
-                        weapon.LookAt(target.transform);
-                    }
-                    
-                    yield return null; 
-            }
-            
-           
-    }
-   
     void Attack(bool isActive)
     {
-        var emissionModule = particleSystemA.emission;
-        emissionModule.enabled = isActive;
+        if(isActive && boolEnemyInRange && !isTimerRunning && !coroutineIsLerping)
+            {   
+                isTimerRunning = true;
+                arrowManager.Fire(target);
+                shootingfeedback.PlayTheFeedback();
+            }
         imShooting = isActive;
         if(!imRotating)
         {StartCoroutine(RotateGatling());}
@@ -153,7 +137,6 @@ void UpdateList()
             yield return null;        
         }
         imRotating = false;
-
     }
 
     void CheckForBuffs()
@@ -188,7 +171,21 @@ void UpdateList()
                 }
             }
     }
-
+private void RemoveInactiveEnemies()
+    {
+        enemiesToRemove.Clear();
+        for (int i = 0; i < numberOfEnemies.Count; i++)
+        {
+            if (!numberOfEnemies[i].activeSelf)
+            {
+                enemiesToRemove.Add(numberOfEnemies[i]);
+            }
+        }
+        foreach (var enemy in enemiesToRemove)
+        {
+            numberOfEnemies.Remove(enemy);
+        }
+    }
    void ChangeTargetRotation(Vector3 lastTarget, Transform currentTarget)
     {
         Vector3 directionToTarget = currentTarget.transform.position - transform.position;
@@ -206,9 +203,7 @@ void UpdateList()
      IEnumerator LerpBetweenTargets(Quaternion initialTargetRotation, Quaternion targetRotation, int targetChangeSPeedBuff, bool brakWhileLoop)
     {   
         coroutineIsLerping = true;
-        
-        Attack(false);
-     
+             
         float travelPercent = Mathf.Clamp01(0f);
         while(travelPercent < 1)
         {
@@ -222,13 +217,17 @@ void UpdateList()
         {coroutineIsLerping = false;}
         
     }
-        IEnumerator HoldTarget()
-    {   
-        coroutineIsWaitingPlaying = true;
-        yield return null;
-        target = closestEnemy;
-        ChangeTargetRotation(lastTargetPosition,target.transform);
-        StartCoroutine(AimWeapon());
-        coroutineIsWaitingPlaying = false;
+
+    void UpdateTimer()
+ {
+    if(isTimerRunning)
+    {
+        currentTimer -= Time.deltaTime;
+        if(currentTimer <= 0f)
+        {   
+            isTimerRunning = false;
+            currentTimer = attackTimer;
+        }
     }
+ }
 }
