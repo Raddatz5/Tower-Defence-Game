@@ -59,6 +59,8 @@ void OnEnable()
     rangeAfterBuff = range;
     previousRangeAfterBuff = rangeAfterBuff;
     currentTimer = attackTimer;
+    numberOfEnemies.Clear();
+    enemiesToRemove.Clear();
 }
 
     void Update()
@@ -70,11 +72,11 @@ void OnEnable()
 
 void OnTriggerEnter(Collider other) 
 {   
-    numberOfEnemies.Add(other.gameObject);    
+    if(other.CompareTag("Enemy")){numberOfEnemies.Add(other.gameObject);}
 }
 void OnTriggerExit(Collider other)
-{
-    numberOfEnemies.Remove(other.gameObject);
+{ 
+    if(other.CompareTag("Enemy")){numberOfEnemies.Remove(other.gameObject);}
 }
 
 void UpdateList()

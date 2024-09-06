@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6198288951622499316}
   - component: {fileID: 7431226182643539808}
   - component: {fileID: 1588861011525597051}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: TreeGroupMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 8548858593238119398}
   - component: {fileID: 1339747702883097878}
   - component: {fileID: 6882656106708681809}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -203,6 +203,10 @@ PrefabInstance:
     - target: {fileID: 1009342095039542317, guid: 42a7e56d02f7773478d446f611d76d4d, type: 3}
       propertyPath: m_Name
       value: MovingFeedback
+      objectReference: {fileID: 0}
+    - target: {fileID: 1009342095039542317, guid: 42a7e56d02f7773478d446f611d76d4d, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5770389425170972594, guid: 42a7e56d02f7773478d446f611d76d4d, type: 3}
       propertyPath: m_LocalPosition.x

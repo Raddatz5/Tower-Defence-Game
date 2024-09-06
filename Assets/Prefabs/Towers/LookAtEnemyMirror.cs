@@ -12,12 +12,11 @@ public class LookatEnemyMirror : MonoBehaviour
     [SerializeField] Transform weapon;
     [SerializeField] GameObject target = null;
     public GameObject Target {get { return target;}}
-    GameObject closestEnemy = null;
+    GameObject highestHealthEnemy = null;
     [SerializeField] float range = 20f;
-    ParticleSystem[] particleSystemA;
+    ParticleSystem particleSystemA;
     MirrorDamage mirrorDamage;
     float baseDamage;
-
     List<GameObject> rangeBuffsInRange = new();
     float rangeOfBuff;
     [SerializeField] float rangeAfterBuff;
@@ -28,6 +27,7 @@ public class LookatEnemyMirror : MonoBehaviour
     float elapsedTime = 0;
     [SerializeField] float chunkDamage = 0;
     List<GameObject> numberOfEnemies = new();
+    List<GameObject> enemiesToRemove = new();
     [SerializeField] float targetChangeSpeed = 3f;
     bool coroutineIsLerping = false;
     Vector3 lastTargetPosition;
@@ -36,15 +36,15 @@ public class LookatEnemyMirror : MonoBehaviour
     Quaternion targetRotation;
     TowerObjectPool towerObjectPool;
     CapsuleCollider capsuleCollider;
-    bool attack = false;
-    bool changingTarget = false;
+    bool boolEnemyInRange = false;
     Upgrade upgrade;
     float previousRangeAfterBuff;
-    GameObject previousTarget;
+    public LayerMask obstacleLayer;
+    EnemyHealth enemyHealth;
 
     void Start()
     {
-        particleSystemA = GetComponentsInChildren<ParticleSystem>();
+        particleSystemA = GetComponentInChildren<ParticleSystem>();
         mirrorDamage = GetComponentInChildren<MirrorDamage>();
         towerObjectPool = FindObjectOfType<TowerObjectPool>();
         capsuleCollider = GetComponent<CapsuleCollider>();
@@ -56,139 +56,129 @@ public class LookatEnemyMirror : MonoBehaviour
     range = upgrade.BaseRange;
     rangeAfterBuff = range;
     previousRangeAfterBuff = rangeAfterBuff;
+    numberOfEnemies.Clear();
+    enemiesToRemove.Clear();
 }
 
 
     void Update()
     {
         CheckForRangeBuffs();
-        UpdateList();
+        RemoveInactiveEnemies();
         UpdateTarget();
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        numberOfEnemies.Add(other.gameObject);
-    }
-    void OnTriggerExit(Collider other)
-    {
-        numberOfEnemies.Remove(other.gameObject);
-    }
+void OnTriggerEnter(Collider other) 
+{   
+    if(other.CompareTag("Enemy")){numberOfEnemies.Add(other.gameObject);}
+}
+void OnTriggerExit(Collider other)
+{ 
+    if(other.CompareTag("Enemy")){numberOfEnemies.Remove(other.gameObject);}
+}
 
-    private void UpdateList()
-    {
-        for (int i = 0; i < numberOfEnemies.Count; i++)
-        {
-            if (!numberOfEnemies[i].activeSelf)
-            {
-                numberOfEnemies.Remove(numberOfEnemies[i]);
-            }
-        }
-    }
     void UpdateTarget()
     {
         if (numberOfEnemies.Count != 0)
-        {
-            closestEnemy = numberOfEnemies.OrderBy(enemy => enemy.GetComponent<EnemyHealth>().CurrentEnemyHealth).Last();
+        {   boolEnemyInRange = true;
+        Debug.Log("There's appareently an enemy"+ numberOfEnemies.Count + numberOfEnemies[0].name);
             if (target == null)
-            {
-                target = closestEnemy;
-                ChangeTargetLayer(target);
-                if (!coroutineIsLerping && !changingTarget)
+            {   highestHealthEnemy = numberOfEnemies.OrderBy(enemy => enemy.GetComponent<EnemyHealth>().CurrentEnemyHealth).First();
+                target = highestHealthEnemy;
+                enemyHealth = target.GetComponent<EnemyHealth>();
+                ChangeTargetRotation(lastTargetPosition, target.transform);
+                
+            }
+            else if (target.activeSelf)
+            {   
+                if (!numberOfEnemies.Contains(target))
                 {
-                    StartCoroutine(ChangeTargetRotation(lastTargetPosition, target.transform));
+                    target = null;
+                }
+                else if (!coroutineIsLerping)
+                {
+                    weapon.LookAt(target.transform.position + new Vector3(0, 3f, 0));
+                    lastTargetPosition = target.transform.position;
+                    Attack(true);
                 }
             }
-            else {
-                lastTargetPosition = target.GetComponent<EnemyMover>().TargetPosition;
-                previousTarget = target;
-                AimWeapon();}
+            else
+            {
+                target = null;
+            }
         }
 
         else
-        {
+        {   boolEnemyInRange = false;
             target = null;
-            attack = false;
             weapon.LookAt(lastTargetPosition);
             Attack(false);
         }
     }
 
-void ChangeTargetLayer(GameObject target)
-{
-    target.layer = 8;
-    if(previousTarget != null)
-    {
-        previousTarget.layer = 6;
-    }
-}
-    void AimWeapon()
-    {
-        if (attack)
-        {
-            float targetHealth = target.GetComponent<EnemyHealth>().CurrentEnemyHealth;
+    void Attack(bool isActive)
+    {   
+        var emissionModule = particleSystemA.emission;
+        emissionModule.enabled = isActive;
+       
+        if(isActive && boolEnemyInRange)
+        {    
+            Vector3 direction = (target.transform.position + new Vector3(0,2.75f,0) - (transform.position + new Vector3(0,4f,0))).normalized;
+            float distance = Vector3.Distance(target.transform.position,transform.position);
+            RaycastHit hit;
+            // Start ramping up damage regardless if hitting target
             baseDamage = mirrorDamage.BaseMirrorDamage;
-            float distance = Vector3.Distance(target.transform.position, transform.position);
-            if (targetHealth > 0 && distance <= rangeAfterBuff+2f && target != null)
+            if (!mirrorDamage.ImRampingUp && baseDamage < mirrorDamage.MaxDamageCap)
             {
-                weapon.LookAt(target.transform);
-                Attack(true);
-                EnemyHealth enemyHealth = target.GetComponent<EnemyHealth>();
-                if (!mirrorDamage.ImRampingUp && baseDamage < mirrorDamage.MaxDamageCap)
-                {
-                    StartCoroutine(mirrorDamage.RampUpDamage());
-                }
+                StartCoroutine(mirrorDamage.RampUpDamage());
+            }
 
-                if (elapsedTime < damagPeriod)
-                {
-                    chunkDamage += baseDamage * Time.deltaTime;
-                    elapsedTime += Time.deltaTime;
-                }
+            //Hitting an obstacle
+            if(Physics.Raycast(transform.position + new Vector3(0,4f,0), direction, out hit, distance, obstacleLayer))
+            {   
+                var mainModule = particleSystemA.main;
+                float distance2 = Vector3.Distance(transform.position,hit.point);
+                mainModule.startLifetime = distance2/mainModule.startSpeed.constant;
+                particleSystemA.transform.LookAt(hit.point);
+            }
+            //Its hitting the target
+            else
+            {   
+                DamageTarget();
+                var mainModule = particleSystemA.main;
+                mainModule.startLifetime = distance/mainModule.startSpeed.constant;
+                particleSystemA.transform.LookAt(target.transform.position + new Vector3(0,2.75f,0));
+            }
+        }
+    }
+    void DamageTarget()
+    {   
+        if (elapsedTime < damagPeriod)
+        {
+            chunkDamage += baseDamage * Time.deltaTime;
+            elapsedTime += Time.deltaTime;
+        }
 
-                else
-                {
-                    if (chunkDamage >= enemyHealth.CurrentEnemyHealth)
-                    {
-                        chunkDamage = enemyHealth.CurrentEnemyHealth;
-                        enemyHealth.ApplyDamage(chunkDamage);
-                    }
-                    else
-                    {
-                        enemyHealth.ApplyDamage(chunkDamage);
-                    }
-
-                    elapsedTime = 0;
-                    chunkDamage = 0;
-                }
+        else
+        {   
+            if (chunkDamage >= enemyHealth.CurrentEnemyHealth)
+            {
+                chunkDamage = enemyHealth.CurrentEnemyHealth;
+                enemyHealth.ApplyDamage(chunkDamage);
             }
             else
             {
-                weapon.LookAt(lastTargetPosition);
-                Attack(false);
-                attack = false;
-                target = null;
-                mirrorDamage.ResetDamage();
-                chunkDamage = 0;
+                enemyHealth.ApplyDamage(chunkDamage);
             }
+
+            elapsedTime = 0;
+            chunkDamage = 0;
         }
     }
-
-
-    void Attack(bool isActive)
-    {
-        foreach (ParticleSystem partSys in particleSystemA)
-        {
-            var emissionModule = partSys.emission;
-            emissionModule.enabled = isActive;
-        }
-    }
-  
-    IEnumerator ChangeTargetRotation(Vector3 lastTarget, Transform currentTarget)
+    void ChangeTargetRotation(Vector3 lastTarget, Transform currentTarget)
     {   
         mirrorDamage.ResetDamage();
-        changingTarget = true;
         Attack(false);
-        attack = false;
         Vector3 directionToTarget = currentTarget.transform.position - transform.position;
         targetRotation = Quaternion.LookRotation(directionToTarget);
 
@@ -200,7 +190,7 @@ void ChangeTargetLayer(GameObject target)
             StartCoroutine(LerpBetweenTargets(lastTargetRotation, targetRotation, 1, true));
         }
         else { StartCoroutine(LerpBetweenTargets(currentRotation, targetRotation, 2, false)); }
-        yield return null;
+   
     }
     IEnumerator LerpBetweenTargets(Quaternion initialTargetRotation, Quaternion targetRotation, int targetChangeSPeedBuff, bool brakWhileLoop)
     {
@@ -216,9 +206,6 @@ void ChangeTargetLayer(GameObject target)
         }
         if (travelPercent >= 1f)
         { coroutineIsLerping = false; }
-        changingTarget = false;
-        attack = true;
-
     }
 
       void CheckForRangeBuffs()
@@ -254,5 +241,20 @@ void ChangeTargetLayer(GameObject target)
             upgrade.UpdateRangeAfterBuff(rangeAfterBuff);
         }
         mirrorDamage.UpdateRangeBuffsInRangeAmount(rangeBuffsInRange.Count);
+    }
+     private void RemoveInactiveEnemies()
+    {
+        enemiesToRemove.Clear();
+        for (int i = 0; i < numberOfEnemies.Count; i++)
+        {
+            if (!numberOfEnemies[i].activeSelf)
+            {
+                enemiesToRemove.Add(numberOfEnemies[i]);
+            }
+        }
+        foreach (var enemy in enemiesToRemove)
+        {
+            numberOfEnemies.Remove(enemy);
+        }
     }
 }

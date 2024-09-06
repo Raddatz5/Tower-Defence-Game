@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 123207630690511875}
   - component: {fileID: 8283712610652993151}
   - component: {fileID: 644811730806010249}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_Large
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 2383147202580309009}
   - component: {fileID: 1168431078455689349}
   - component: {fileID: 2069926328296850062}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: TreeLargeMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -201,6 +201,10 @@ PrefabInstance:
     - target: {fileID: 1009342095039542317, guid: 42a7e56d02f7773478d446f611d76d4d, type: 3}
       propertyPath: m_Name
       value: MovingFeedback
+      objectReference: {fileID: 0}
+    - target: {fileID: 1009342095039542317, guid: 42a7e56d02f7773478d446f611d76d4d, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5770389425170972594, guid: 42a7e56d02f7773478d446f611d76d4d, type: 3}
       propertyPath: m_LocalPosition.x

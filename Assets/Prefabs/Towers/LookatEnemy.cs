@@ -55,6 +55,8 @@ void OnEnable()
     rangeAfterBuff = range;
     previousRangeAfterBuff = rangeAfterBuff;
     currentTimer = attackTimer;
+    numberOfEnemies.Clear();
+    enemiesToRemove.Clear();
 }
     void Update()
     {   
@@ -65,11 +67,11 @@ void OnEnable()
 
 void OnTriggerEnter(Collider other) 
 {   
-    numberOfEnemies.Add(other.gameObject);  
+    if(other.CompareTag("Enemy")){numberOfEnemies.Add(other.gameObject);}
 }
 void OnTriggerExit(Collider other)
 { 
-    numberOfEnemies.Remove(other.gameObject);
+    if(other.CompareTag("Enemy")){numberOfEnemies.Remove(other.gameObject);}
 }
 
 void UpdateList()
@@ -81,7 +83,6 @@ void UpdateList()
             boolEnemyInRange = true;
             if (target == null)
             {
-                Debug.Log("Gettingnew target");
                 closestEnemy = numberOfEnemies.OrderBy(enemy => Vector3.Distance(transform.position, enemy.transform.position)).FirstOrDefault();
                 target = closestEnemy;
                 ChangeTargetRotation(lastTargetPosition, target.transform);
@@ -91,7 +92,6 @@ void UpdateList()
             {
                 if (!numberOfEnemies.Contains(target))
                 {
-                    Debug.Log("I lost the target");
                     target = null;
                 }
                 else if (!coroutineIsLerping)

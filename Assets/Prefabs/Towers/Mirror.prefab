@@ -86,6 +86,9 @@ MonoBehaviour:
   damagPeriod: 0.5
   chunkDamage: 0
   targetChangeSpeed: 6
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 2048
 --- !u!114 &5506312676117365161
 MonoBehaviour:
   m_ObjectHideFlags: 0
