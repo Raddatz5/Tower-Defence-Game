@@ -1,0 +1,13 @@
+# Blender 4.2.1 LTS MTL File: 'test.blend'
+# www.blender.org
+
+newmtl Knight_Basic
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd S:/Unity Prjects/Blender Models/Realm Rush/Knight 1/textures/Knight Base Color.png
+map_Ns S:/Unity Prjects/Blender Models/Realm Rush/Knight 1/textures/Knight Basic Roughness.png
+map_refl S:/Unity Prjects/Blender Models/Realm Rush/Knight 1/textures/Metallic.png

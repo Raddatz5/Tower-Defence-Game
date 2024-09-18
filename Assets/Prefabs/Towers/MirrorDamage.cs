@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class MirrorDamage : MonoBehaviour
 {
@@ -19,19 +20,34 @@ public class MirrorDamage : MonoBehaviour
     float startDamage = 0f;
     float t = 0f;
     LookatEnemyMirror lookatEnemyMirror;
-
     int rangeBuffsInRange;
     bool breakWhileLoop = false;
     Upgrade upgrade;
     float defaultBuff = 1f;
+    float timeInterval = 0f;
+   [SerializeField] float particleSize;
+    float particleSizeInitial;
+    [SerializeField] float particleSizeUp = 0.43f;
+    float subEmitProb;
+    float subEmitProbInitial;
+    float subEmitProbUp = 0.26f;
+    ParticleSystem particleSystemA;
+    ParticleSystem.MainModule mainModule;
+    
 
 void Start()
 {
     lookatEnemyMirror = GetComponentInParent<LookatEnemyMirror>();
+    particleSystemA = GetComponentInChildren<ParticleSystem>();
+    mainModule = particleSystemA.main;
+    var subEmitterModule = particleSystemA.subEmitters;
+    subEmitProbInitial = subEmitterModule.GetSubEmitterEmitProbability(0);
+    particleSizeInitial = mainModule.startSize.constant;
 }
 
 void OnEnable()
-{
+{    subEmitProb = subEmitProbInitial;
+     particleSize = particleSizeInitial;
      upgrade = GetComponent<Upgrade>();
      rampUpTime = rampUpTimeBase;
 }
@@ -42,26 +58,60 @@ void Update()
 }
     public IEnumerator RampUpDamage()
     {   
+        ResetParticleSizeandProb();
         float elapsedTime = 0f;
+        int i = 1;
         AdjustRampUpTime();
+        timeInterval = rampUpTime/4;
         imRampingUp = true;
         while (elapsedTime < rampUpTime)
         {
             t = elapsedTime / rampUpTime;
             baseDamage = Mathf.Lerp(startDamage, maxDamageCap*defaultBuff, t);
-            if(breakWhileLoop){
-            break;}
-            yield return null;
+            if(breakWhileLoop){break;}
 
+            if(elapsedTime > timeInterval*i)
+            {
+                IncreaseParticleSizeandProb();
+                i++;
+            }
+        
             elapsedTime += Time.deltaTime;
+            yield return null;
         }
         imRampingUp = false;
+        Debug.Log("Im ramped Up, emitProb is: " +subEmitProb + " and particlesize is: " + mainModule.startSize.constant);
         if (breakWhileLoop)
             {baseDamage = startDamage;}
         else
             {baseDamage = maxDamageCap;}
     }
 
+void IncreaseParticleSizeandProb()
+{
+    subEmitProb += subEmitProbUp;
+    Debug.Log(subEmitProb);
+    particleSize += particleSizeUp;
+    float multiplier = particleSize/particleSizeInitial;
+
+    var subEmitterModule = particleSystemA.subEmitters;
+    subEmitterModule.SetSubEmitterEmitProbability(0,subEmitProb);
+    mainModule.startSizeMultiplier = multiplier;
+    Debug.Log("Particle size after BUMP " +mainModule.startSize.constant);
+
+}
+void ResetParticleSizeandProb()
+{
+    subEmitProb = subEmitProbInitial;
+    particleSize = particleSizeInitial;
+    Debug.Log("The intial particle size "+particleSize);
+
+    var subEmitterModule = particleSystemA.subEmitters;
+    subEmitterModule.SetSubEmitterEmitProbability(0,subEmitProbInitial);
+    mainModule.startSizeMultiplier = 1f;
+    Debug.Log("Particle size after reset multi " +mainModule.startSize.constant);
+    
+}
     public void ResetDamage()
     {   StartCoroutine(BreakWhileLoop());
         baseDamage = startDamage;

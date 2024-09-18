@@ -81,7 +81,7 @@ void OnTriggerExit(Collider other)
     {
         if (numberOfEnemies.Count != 0)
         {   boolEnemyInRange = true;
-        Debug.Log("There's appareently an enemy"+ numberOfEnemies.Count + numberOfEnemies[0].name);
+        
             if (target == null)
             {   highestHealthEnemy = numberOfEnemies.OrderBy(enemy => enemy.GetComponent<EnemyHealth>().CurrentEnemyHealth).First();
                 target = highestHealthEnemy;
@@ -111,7 +111,7 @@ void OnTriggerExit(Collider other)
         else
         {   boolEnemyInRange = false;
             target = null;
-            weapon.LookAt(lastTargetPosition);
+            weapon.LookAt(lastTargetPosition+ new Vector3(0, 3f, 0));
             Attack(false);
         }
     }

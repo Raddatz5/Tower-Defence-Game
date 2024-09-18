@@ -104,8 +104,11 @@ MonoBehaviour:
   maxDamageCap: 35
   maxDamageWithBuff: 0
   rampUpTime: 3
-  rampUpTimeBase: 3
+  rampUpTimeBase: 2.5
   baseDamage: 0
+  particleSizeInitial: 0
+  particleSizeUp: 0.57
+  subEmitProbInitial: 0
 --- !u!120 &985163665069178735
 LineRenderer:
   serializedVersion: 2
@@ -545,7 +548,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 0.8
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -1254,7 +1257,7 @@ ParticleSystem:
           outWeight: 0
         - serializedVersion: 3
           time: 1
-          value: 0.29296875
+          value: 0.5118461
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -4076,7 +4079,7 @@ ParticleSystem:
       emitter: {fileID: 5941910353282092706}
       type: 2
       properties: 0
-      emitProbability: 1
+      emitProbability: 0.2
   LightsModule:
     enabled: 0
     ratio: 0
