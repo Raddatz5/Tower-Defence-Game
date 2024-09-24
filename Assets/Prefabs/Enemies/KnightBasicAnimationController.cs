@@ -12,19 +12,31 @@ public class KnightBasicAnimationController : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-
-    void Update()
-    {   if(enemyMover.ImAttacking)
-    {
-        animator.SetTrigger("Attack1");
+    public void Move()
+        {
+            animator.SetBool("Move",true);
+        }
+    public void Stop()
+        {   
+            animator.SetBool("Move",false);
+        }
+    
+    public void Attack()
+    {   float rand = Random.Range(0f,1f);
+        Debug.Log(rand);
+        if (rand > 0.5f)
+        {animator.SetTrigger("Attack1");}
+        else {animator.SetTrigger("Attack2");}
+        StartCoroutine(Reset());
+        
     }
-        if(enemyMover.ImMoving)
-        {
-            animator.SetTrigger("Move");
-        }
-        else
-        {
-            animator.SetTrigger("Stop");
-        }
+    IEnumerator Reset()
+    {
+        yield return new WaitForSeconds(0.2f);
+        animator.ResetTrigger("Attack1");
+        animator.ResetTrigger("Attack2");
+    }
+ void OnDisable() { StopAllCoroutines();
+        
     }
 }

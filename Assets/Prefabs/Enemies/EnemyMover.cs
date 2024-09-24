@@ -42,6 +42,8 @@ public class EnemyMover : MonoBehaviour
     public bool ImMoving {get { return imMoving;}}
     bool imAttacking = false;
     public bool ImAttacking {get { return imAttacking;}}
+    KnightBasicAnimationController animatorController;
+    bool isMove = false;
  
     
      private void Awake()
@@ -52,10 +54,11 @@ public class EnemyMover : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         pathFinder = FindObjectOfType<PathFinder>();
         gridManager = FindObjectOfType<GridManager>();
+        animatorController = GetComponent<KnightBasicAnimationController>();
     }
 
     void OnEnable()
-    {  
+    {   isMove = false;
         imMoving = false;
         imAttacking = false; 
         last4Positions.Clear();
@@ -69,6 +72,7 @@ public class EnemyMover : MonoBehaviour
     void Update()
     {
         UpdateList();
+        SendTriggers();
     }
 void RecalculatePath(bool resetPath)
     {   if(gridManager.GetCoordinatesFromPosition(transform.position) != pathFinder.DestinationCoordinates)
@@ -143,6 +147,7 @@ void RecalculatePath(bool resetPath)
             Vector3 endPosition = gridManager.GetPostitionFromCoordinates(path[i].coordinates);
             targetPosition = endPosition;
             currentWaypoint = i;
+             distanceBetweenPoints = Vector3.Distance(startPosition, endPosition);
 
             // add the next postiion to the list to track where its been, for mini spawns
             if(!last4Positions.Contains(gridManager.GetPostitionFromCoordinates(path[i].coordinates)))
@@ -226,13 +231,14 @@ void UpdateSpeed()
         else { speed = 1f; }
 }
   IEnumerator DamageCastle()
-    {   
+    {   castleHealth.DamageCastle(enemy.RamDamage);
         while(true)
-        {   imMoving = false;
-            imAttacking = false; 
-           
+        {   
+            imMoving =false; 
+            if(enemyHealth.CurrentEnemyHealth>0){           
+            animatorController.Attack();}
             yield return new WaitForSeconds(castleHealth.CastleDamageDelay);
-            imAttacking = true;
+            enemyHealth.ApplyDamage(castleHealth.CastleDamage);           
         }
         
     }
@@ -267,9 +273,8 @@ void UpdateSpeed()
             knightTarget.GetComponent<KnightMover>().TakeHealth(attackDamage);
         }
         else 
-        {
+        {   
             castleHealth.DamageCastle(enemy.RamDamage);
-            enemyHealth.ApplyDamage(castleHealth.CastleDamage);
         }
     }
     IEnumerator SlowDownToStop()
@@ -291,5 +296,15 @@ void UpdateSpeed()
 
         // Gizmos.color = Color.red;
         // Gizmos.DrawWireSphere(transform.position, cornerRadius);
+    }
+    void SendTriggers()
+    {        
+        if(imMoving && !isMove)
+        {
+            isMove = true;
+            animatorController.Move();
+        }
+        else if(!imMoving && isMove){ isMove = false; animatorController.Stop();}
+
     }
 }

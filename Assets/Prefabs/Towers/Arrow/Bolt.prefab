@@ -131,6 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  timer: 6
 --- !u!114 &-9038755968933085466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,7 +155,7 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 320
+    m_Bits: 2368
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 1696
