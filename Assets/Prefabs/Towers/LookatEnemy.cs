@@ -15,6 +15,7 @@ using UnityEngine.SocialPlatforms;
 public class LookatEnemy : MonoBehaviour
 {
     [SerializeField] Transform weapon;
+    [SerializeField] Transform gearRotate;
     [SerializeField] GameObject target = null;
     [SerializeField] float attackTimer = 1f;
     public GameObject Target{get{return target;}}
@@ -40,11 +41,13 @@ public class LookatEnemy : MonoBehaviour
     ArrowManager arrowManager;
     bool isTimerRunning = false;
     float currentTimer;
+    float previousYRotation2;
 
     void Start()
     {   arrowManager = GetComponentInChildren<ArrowManager>();
         towerObjectPool = FindObjectOfType<TowerObjectPool>();
         capsuleCollider = GetComponent<CapsuleCollider>();
+        previousYRotation2 = gearRotate.transform.eulerAngles.y;
     }
 
 void OnEnable()
@@ -63,8 +66,21 @@ void OnEnable()
         UpdateTimer();
         CheckForBuffs();
         UpdateList();
+        TurnGear();
     }
-
+void TurnGear()
+{   float currentYRotation1 = weapon.transform.eulerAngles.y;
+    float previousXRotation = gearRotate.transform.eulerAngles.z;
+    //get the difference of the angle change and scale the offset by the gear ratio
+    float deltaRotation = Mathf.DeltaAngle(currentYRotation1, previousYRotation2);
+    float offset = deltaRotation*5/3*-1;
+    //Rotate the entire gear around the y axis by follwing weapon y axis
+    Quaternion targetRotation = weapon.transform.rotation;
+    Vector3 targetEulerAngles = targetRotation.eulerAngles;
+    // Vector3 currentEulerAngles = transform.eulerAngles;
+    gearRotate.rotation = Quaternion.Euler(0f,targetEulerAngles.y,previousXRotation+offset);
+    previousYRotation2 = gearRotate.transform.rotation.eulerAngles.y;
+}
 void OnTriggerEnter(Collider other) 
 {   
     if(other.CompareTag("Enemy")){numberOfEnemies.Add(other.gameObject);}
@@ -96,7 +112,7 @@ void UpdateList()
                 }
                 else if (!coroutineIsLerping)
                 {
-                    weapon.LookAt(target.transform.position + new Vector3(0, 3f, 0));
+                    weapon.LookAt(target.transform.position + new Vector3(0, 01f, 0));
                     lastTargetPosition = target.transform.position;
                     Attack(true);
                 }
@@ -209,7 +225,10 @@ void UpdateList()
                 }
             }
     }
+    public void SetArrowReload()
+{
 
+}
  void UpdateTimer()
  {
     if(isTimerRunning)

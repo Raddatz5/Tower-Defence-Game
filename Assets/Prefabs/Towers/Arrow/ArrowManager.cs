@@ -13,12 +13,18 @@ public class ArrowManager : MonoBehaviour
     GameObject tempTarget;
     public GameObject TempTarget { get { return tempTarget; } }
     Transform tempParent;
+    Animator animator;
        
     
     void Awake()
     {
         PopulatePool();
         tempParent = FindAnyObjectByType<Parent>().transform;
+    }
+
+    void Start()
+    {
+        animator = GetComponentInParent<Animator>();
     }
 
     private void PopulatePool()
@@ -34,6 +40,8 @@ public class ArrowManager : MonoBehaviour
 
     public void Fire(GameObject target)
     {   tempTarget = target;
+        animator.SetTrigger("Fire");
+        StartCoroutine(Reset());
         for (int i = 0; i < pool.Length; i++)
         {
             if(!pool[i].activeSelf)
@@ -45,5 +53,19 @@ public class ArrowManager : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void SetArrowReload()
+{
+
+}
+   
+    IEnumerator Reset()
+    {   Debug.Log("Started reset");
+        yield return new WaitForSeconds(0.2f);
+        animator.ResetTrigger("Fire");
+    }
+ void OnDisable() { StopAllCoroutines();
+        
     }
 }
