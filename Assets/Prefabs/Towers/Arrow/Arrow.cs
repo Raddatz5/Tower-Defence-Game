@@ -40,7 +40,7 @@ public class Arrow : MonoBehaviour
             {
                 transform.LookAt(target.transform.position + new Vector3(0,3f,0));
             }
-            transform.position = initialPosition + transform.forward * speed * Time.deltaTime;        
+            transform.position = initialPosition + speed * Time.deltaTime * transform.forward;        
     }
 
     public void WhatsMyTarget(GameObject targetRef)

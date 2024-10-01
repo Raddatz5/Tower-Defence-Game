@@ -137,8 +137,51 @@ public class PathFinder : MonoBehaviour
                 GetNewPath();
                 return true;
             }
-
         }
+        return false;
+    }
+
+      public bool WillBlockPathMultiple(List<Vector2Int> List)
+    {   List <bool> previouseStateList = new();
+        List<Vector2Int> containsKeyList = new();
+        // List<Node> newPath = new ();
+       
+       //sort which coordinates are within the grid
+        foreach (Vector2Int coordinate in List)
+        { if (grid.ContainsKey(coordinate))
+            {
+                containsKeyList.Add(coordinate);
+            }
+        }
+        
+        // check only coordinates that are in the grid
+        if(containsKeyList.Count >0)
+            {
+                // temp block off all grid nodes in the provided array
+                foreach (Vector2Int coordinate in containsKeyList)
+                { if (grid.ContainsKey(coordinate))
+                    {
+                        previouseStateList.Add(grid[coordinate].isWalkable);
+                        grid[coordinate].isWalkable = false;
+                    }
+                }
+                
+                //check to see if theres a path
+                List<Node> newPath = GetNewPath();
+
+                //put the grid nodes back to what they were
+                for (int i = 0; i<containsKeyList.Count;i++)
+                {   Vector2Int temp = containsKeyList[i];
+                    grid[temp].isWalkable = previouseStateList[i];
+                }
+            
+                //verify if path is blocked by the length of the path
+                if (newPath.Count <= 1)
+                        {
+                            GetNewPath();
+                            return true;
+                        }
+            }
 
         return false;
     }

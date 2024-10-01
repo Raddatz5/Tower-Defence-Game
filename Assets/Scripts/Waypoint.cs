@@ -71,11 +71,12 @@ public class Waypoint : MonoBehaviour
             return;
         }
         else if (!EventSystem.current.IsPointerOverGameObject() && isPlaceable && !pathFinder.WillBlockPath(coordinates) && buttonManager.IsBuildMenuOpen)
-        {   
+        {       
                 index = buttonManager.WhereOnIndex;
                 spawnObject = listOfSpawns[index];
                 goldCost1 = spawnObject.GetComponent<GoldCost>().HowMuch;
                 currentBalance = gold.CurrentBalance;
+                
                 if(currentBalance >= goldCost1)
                 {
                     whatTowerIsOnMe = towerObjectPool.SpawnTower(index, transform.position, gameObject);
@@ -83,18 +84,27 @@ public class Waypoint : MonoBehaviour
                     {
                         whatTowerIsOnMe.transform.parent = transform; 
                     }
-                    pathFinder.UpdateCoordinatePlaceholder(coordinates);
-                    gold.Withdraw(goldCost1);
-                    isPlaceable = false;
-                    gridManager.BlockNode(coordinates);
-                    pathFinder.NotifyReceivers();
-                    tileBorder.UpdateSquare();
-                    isThereATowerOnMe = true;
+                    if(index == 8)
+                    {   
+                        LineTurret lineTurret = whatTowerIsOnMe.GetComponent<LineTurret>();
+                        isPlaceable = false;
+                        lineTurret.StartSetup(coordinates, gameObject);
+                    }
+                    else
+                    {
+                        pathFinder.UpdateCoordinatePlaceholder(coordinates);
+                        gold.Withdraw(goldCost1);
+                        isPlaceable = false;
+                        gridManager.BlockNode(coordinates);
+                        pathFinder.NotifyReceivers();
+                        tileBorder.UpdateSquare();
+                        isThereATowerOnMe = true;
+                    }
                 }
         }
         else if(isThereATowerOnMe && !buttonManager.IsBuildMenuOpen)
         {
-            whatTowerIsOnMe.GetComponent<Upgrade>().TowerUpgradeMenuFirst();
+            whatTowerIsOnMe.GetComponent<Upgrade>().TowerUpgradeMenuFirst(gameObject);
         }
         }
     public void MakePlaceable()
@@ -111,5 +121,35 @@ public class Waypoint : MonoBehaviour
     {
         isThereATowerOnMe = false;
     }
-    
+
+    public void CheckTileSecondTower(GameObject secondTower)
+    {  
+        if (spawnObject == null)
+        {
+            return;
+        }
+        else if (!EventSystem.current.IsPointerOverGameObject() && isPlaceable && !secondTower.GetComponent<LineTurret>().IsItBlocked(coordinates) && buttonManager.IsBuildMenuOpen)
+        {                       
+            whatTowerIsOnMe = secondTower;
+            if(this.CompareTag("Floating"))
+            {
+                whatTowerIsOnMe.transform.parent = transform; 
+            }
+                LineTurret lineTurret = whatTowerIsOnMe.GetComponent<LineTurret>();
+                lineTurret.FoundTower2(transform.position,gameObject);
+        }
+        else 
+        {
+           return;
+        }
+    }
+    public void BlockTile()
+    {
+        pathFinder.UpdateCoordinatePlaceholder(coordinates);
+        isPlaceable = false;
+        gridManager.BlockNode(coordinates);
+        tileBorder.UpdateSquare();
+        isThereATowerOnMe = true;
+    }
+        
 }

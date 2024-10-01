@@ -52,7 +52,7 @@ public class LookatEnemy : MonoBehaviour
 
 void OnEnable()
 {
-    lastTargetPosition = new Vector3(transform.position.x,transform.position.y,transform.position.z + 10f);
+    lastTargetPosition = new Vector3(transform.position.x,transform.position.y,transform.position.z + 13f);
     upgrade = GetComponent<Upgrade>();
     range = upgrade.BaseRange;
     rangeAfterBuff = range;
@@ -112,8 +112,8 @@ void UpdateList()
                 }
                 else if (!coroutineIsLerping)
                 {
-                    weapon.LookAt(target.transform.position + new Vector3(0, 01f, 0));
-                    lastTargetPosition = target.transform.position;
+                    weapon.LookAt(target.transform.position + new Vector3(0, 2f, 0));
+                    lastTargetPosition = target.transform.position+ new Vector3(0, 2f, 0);
                     Attack(true);
                 }
             }
@@ -127,7 +127,7 @@ void UpdateList()
         {
             boolEnemyInRange = false;
             target = null;
-            weapon.LookAt(lastTargetPosition, Vector3.up * 3);
+            weapon.LookAt(lastTargetPosition);
             float eulerAngleOffset = -8f;
             weapon.Rotate(Vector3.right, eulerAngleOffset, Space.Self);
             Attack(false);
@@ -227,7 +227,11 @@ void UpdateList()
     }
     public void SetArrowReload()
 {
-
+    arrowManager.SetArrowReload();
+}
+    public void ReloadDone()
+{
+    arrowManager.ReloadDone();
 }
  void UpdateTimer()
  {

@@ -6,13 +6,16 @@ using UnityEngine.EventSystems;
 public class MouseClicker : MonoBehaviour
 {
     public LayerMask clickableLayers;
+    bool lookingForSecondTower = false;
+    GameObject secondTowerRef = null;
 
     // bool isMouseOver = false;
 
 void Update() 
 {   
     if(Input.GetMouseButtonDown(0))
-    {       
+    {   if(!lookingForSecondTower) 
+        {   
             if(!EventSystem.current.IsPointerOverGameObject())
             {
                 Ray ray1 = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -23,6 +26,20 @@ void Update()
                     tile.CheckTile();
                 }
             }
+        }
+        else 
+        {
+            if(!EventSystem.current.IsPointerOverGameObject())
+            {
+                Ray ray1 = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray1, out RaycastHit hit1, Mathf.Infinity, clickableLayers))
+                {  
+                    Collider clickedCollider = hit1.collider;
+                    Waypoint tile = clickedCollider.GetComponent<Waypoint>();
+                    tile.CheckTileSecondTower(secondTowerRef);
+                }
+            }
+        }
     }
     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
     if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, clickableLayers))
@@ -31,6 +48,15 @@ void Update()
         Waypoint tile = clickedCollider.GetComponent<Waypoint>();
         tile.UpdateMouseOver();
     }
+}
+public void SecondTowerCheck(GameObject tower)
+{
+    secondTowerRef = tower;
+    lookingForSecondTower = true;
+}
+public void FoundSecondTower()
+{
+    lookingForSecondTower = false;
 }
 
 //  private void OnMouseEnter()

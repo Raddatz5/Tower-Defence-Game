@@ -14,12 +14,25 @@ public class ArrowManager : MonoBehaviour
     public GameObject TempTarget { get { return tempTarget; } }
     Transform tempParent;
     Animator animator;
+    [SerializeField] GameObject reloadArrowBot;
+    [SerializeField] GameObject reloadArrowTop;
+    [SerializeField] Transform reloadParent;
+    MeshRenderer reloadArrowMeshBot;
+    MeshRenderer reloadArrowMeshTop;
        
     
     void Awake()
     {
         PopulatePool();
         tempParent = FindAnyObjectByType<Parent>().transform;
+        reloadArrowMeshBot = reloadArrowBot.GetComponent<MeshRenderer>();
+        reloadArrowMeshTop = reloadArrowTop.GetComponent<MeshRenderer>();
+    }
+    void OnEnable()
+    {
+        reloadArrowMeshTop.enabled = true;
+        reloadArrowMeshBot.enabled = false;
+        // reloadArrowBot.transform.SetParent(this.transform,false);
     }
 
     void Start()
@@ -39,7 +52,9 @@ public class ArrowManager : MonoBehaviour
     }
 
     public void Fire(GameObject target)
-    {   tempTarget = target;
+    {   reloadArrowMeshBot.enabled = false;
+        reloadArrowMeshTop.enabled = false;
+        tempTarget = target;
         animator.SetTrigger("Fire");
         StartCoroutine(Reset());
         for (int i = 0; i < pool.Length; i++)
@@ -57,11 +72,18 @@ public class ArrowManager : MonoBehaviour
 
     public void SetArrowReload()
 {
-
+    reloadArrowMeshBot.enabled = true;
+    reloadArrowMeshTop.enabled = false;
+    // reloadArrowBot.transform.SetParent(reloadParent, false);
 }
-   
+       public void ReloadDone()
+{   
+    reloadArrowMeshBot.enabled = false;
+    reloadArrowMeshTop.enabled = true;
+    // reloadArrowBot.transform.SetParent(this.transform,true);
+}
     IEnumerator Reset()
-    {   Debug.Log("Started reset");
+    {   
         yield return new WaitForSeconds(0.2f);
         animator.ResetTrigger("Fire");
     }

@@ -30,6 +30,7 @@ public class ButtonManager : MonoBehaviour
      float originalTimeScale;
      CastleHealth castleHealth;
      Vector3 ghostLocation = new();
+     public Vector3 GhostLocation{get{ return ghostLocation;}}
      bool showGhostIfPlaceable = false;
      Camera cameraMain;
      GameObject towerToUpgrade = null;
@@ -150,6 +151,7 @@ void UpdateGhost()
         }
     spawnObjectGhost.transform.position = ghostLocation;
 }
+//called from Upgrade script on tower
 public void OpenUpgradeMenu(GameObject targetTower, GameObject waypoint, Vector3 position)
 {                   
         Vector3 adjustedPosition = cameraMain.WorldToScreenPoint(position);
@@ -161,8 +163,10 @@ public void OpenUpgradeMenu(GameObject targetTower, GameObject waypoint, Vector3
        
         towerToUpgrade = targetTower;
         if(towerToUpgrade != targetTowerCheck && targetTowerCheck != null)
-        {
-            targetTowerCheck.GetComponent<LineRenderer>().enabled = towerObjectPool.IsShowing;
+        {   if(towerToUpgrade.name != "LineTurret")
+            {
+                targetTowerCheck.GetComponent<LineRenderer>().enabled = towerObjectPool.IsShowing;
+            }
         }
         towerWaypoint = waypoint;
         isUpgradeMenuOpen = true;
@@ -213,7 +217,10 @@ public void UpdateUpgradeMenu()
                 break;
         case "Spotter":  
             statsText.text = $"{name} Level: {level}\nRange: {Mathf.RoundToInt(range)}\nRange Boost: {Mathf.RoundToInt(towerUpgrade.RangeMod*100)}%";
-                break;        
+                break;
+        case "LineTurret":  
+            statsText.text = $"{name} Level: {level}";
+                break;         
     }
     Rect existingRect = statsText.rectTransform.rect;
     RectTransform backgroundRect = background.GetComponent<RectTransform>();
@@ -267,7 +274,8 @@ IEnumerator CloseUpgradeMenu(Vector3 screenPos)
         }
         yield return null;
     }
-    towerToUpgrade.GetComponent<LineRenderer>().enabled = towerObjectPool.IsShowing;
+    if(towerToUpgrade.name != "LineTurret")
+    {towerToUpgrade.GetComponent<LineRenderer>().enabled = towerObjectPool.IsShowing;}
     upgradeMenu.SetActive(false);
 }
 
@@ -278,7 +286,12 @@ IEnumerator CloseUpgradeMenu(Vector3 screenPos)
             isBuildMenuOpen = true;
             buildMenu.SetActive(true);
             upgradeMenu.SetActive(false);
-            if(towerToUpgrade != null){towerToUpgrade.GetComponent<LineRenderer>().enabled = towerObjectPool.IsShowing;}
+            if(towerToUpgrade != null)
+            {   if(towerToUpgrade.name != "LineTurret")
+                {
+                towerToUpgrade.GetComponent<LineRenderer>().enabled = towerObjectPool.IsShowing;
+                }
+            }
             if(showGhostIfPlaceable)
             {
                 spawnObjectGhost.SetActive(true);
@@ -312,14 +325,21 @@ IEnumerator CloseUpgradeMenu(Vector3 screenPos)
         }
      }
 public void ButtonTowerSell()
-{
+{   
     int totalGoldWorth = towerToUpgrade.GetComponent<Upgrade>().TotalGoldWorth;
     int goldFromSell = Mathf.RoundToInt(totalGoldWorth*percentToSell);
     gold.AddToGold(goldFromSell);
     towerToUpgrade.SetActive(false);
     towerToUpgrade.transform.parent = towerObjectPool.transform;
-    towerWaypoint.GetComponent<Waypoint>().MakePlaceable();
-    towerWaypoint.GetComponent<TileBorder>().UpdateSoldBorder();
+    if(towerToUpgrade.name == "LineTurret")
+    {
+        towerToUpgrade.GetComponent<LineTurret>().SellTower();
+    }
+    else
+    {
+        towerWaypoint.GetComponent<Waypoint>().MakePlaceable();
+        towerWaypoint.GetComponent<TileBorder>().UpdateSoldBorder();
+    }    
     upgradeMenu.SetActive(false);
 }
 public void ButtonTowerRangeUpgrade()
@@ -343,44 +363,49 @@ public void ButtonTowerDMGUpgrade()
         spawnObjectIndex = 0;
         NextAfterButtonClick();
     }
-    public void OnbuttonClick2()
+    public void ButtonFlame()
     {  
         spawnObjectIndex = 1;
         NextAfterButtonClick();
     }
-     public void OnbuttonClick3()
+     public void ButtonGatling()
     {   
         spawnObjectIndex = 2;
          NextAfterButtonClick();
     }
 
-         public void OnbuttonClick4()
+         public void ButtonMirror()
     {   
         spawnObjectIndex = 3;
           NextAfterButtonClick();
     }
 
-         public void OnbuttonClick5()
+         public void ButtonSlammer()
     {   
         spawnObjectIndex = 4;
          NextAfterButtonClick();
     }
 
-         public void OnbuttonClick6()
+         public void ButtonSinger()
     {   
         spawnObjectIndex = 5;
          NextAfterButtonClick();
     }
 
-           public void OnbuttonClick7()
+           public void ButtonTomato()
     {   
         spawnObjectIndex = 6;
          NextAfterButtonClick();
     }
 
-           public void OnbuttonClick8()
+           public void ButtonSpotter()
     {   
         spawnObjectIndex = 7;
+         NextAfterButtonClick();
+    }
+             public void ButtonLineTurret()
+    {   
+        spawnObjectIndex = 8;
          NextAfterButtonClick();
     }
 private void NextAfterButtonClick()

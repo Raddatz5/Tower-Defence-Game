@@ -139,10 +139,10 @@ void Update()
    {
         rangeMod = initialRangeMod + baseDamage + rangeModAmountFromDMGBuffs;
    }
-
- public void TowerUpgradeMenuFirst() 
-    {        
-      buttonManager.OpenUpgradeMenu(gameObject, towerWaypoint, transform.position);            
+//Called from Waypoint when its clicked and build menu isnt open
+ public void TowerUpgradeMenuFirst(GameObject waypointThatCalled) 
+    { 
+        buttonManager.OpenUpgradeMenu(gameObject, waypointThatCalled, waypointThatCalled.transform.position);            
     }
 public void AssignWaypoint(GameObject waypoint)
 {
