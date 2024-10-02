@@ -23,7 +23,6 @@ ObjectPoolBig2 objectPoolBig2;
 [SerializeField] float healthBarVerticalOffset = 10f;
 ExplosionPool explosionPool;
 List<Vector3> last4Positions = new();
-GridManager gridManager;
 
       
     void OnEnable()
@@ -33,10 +32,7 @@ GridManager gridManager;
         _targetHealthBar.HealthBarOffset = new Vector3(0f, healthBarVerticalOffset,UnityEngine.Random.Range(-0.5f,0.5f));
         UpdateHealth();
     }
-void Awake()
-{
-    gridManager = FindObjectOfType<GridManager>();
-}
+
 void Start() 
 {
     enemy = GetComponent<Enemy>();

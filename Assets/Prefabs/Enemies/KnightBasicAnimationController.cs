@@ -22,8 +22,8 @@ public class KnightBasicAnimationController : MonoBehaviour
         }
     
     public void Attack()
-    {   float rand = Random.Range(0f,1f);
-        Debug.Log(rand);
+    {   
+        float rand = Random.Range(0f,1f);
         if (rand > 0.5f)
         {animator.SetTrigger("Attack1");}
         else {animator.SetTrigger("Attack2");}

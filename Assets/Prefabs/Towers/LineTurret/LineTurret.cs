@@ -12,9 +12,7 @@ public class LineTurret : MonoBehaviour
     public Transform Tower1AttachPoint { get { return tower1AttachPoint; }set{} }
     [SerializeField] Transform tower2AttachPoint;
     public Transform Tower2AttachPoint { get { return tower2AttachPoint; }set{} }
-    [SerializeField] float speed;
     [SerializeField] GameObject movingPart;
-    public float Speed {get { return speed; } set {}}
     MeshRenderer buildMesh1Renderer;
     bool tower2PositionFound = false;
     bool lookingForTower2 =false;

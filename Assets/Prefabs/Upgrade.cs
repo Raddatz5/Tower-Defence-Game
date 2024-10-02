@@ -6,6 +6,7 @@ using UnityEngine.Timeline;
 public class Upgrade : MonoBehaviour
 {
     [SerializeField] float baseRange;
+    [SerializeField] Transform proximatyObjectForUpgrade;
      public float BaseRange{ get { return baseRange; } }
     [SerializeField] float rangeAfterBuff;
     public float RangeAfterBuff { get { return rangeAfterBuff; } }
@@ -36,12 +37,11 @@ public class Upgrade : MonoBehaviour
     public int NumberOfRangeUp {get { return numberOfRangeUp; } }
     int numberOfDMGUp = 0;
     public int NumberOfDMGUp { get { return numberOfDMGUp;}}
-   Gold gold;
-   GoldCost goldCost;
+    Gold gold;
+    GoldCost goldCost;
     ButtonManager buttonManager;
     int totalGoldWorth;
     public int TotalGoldWorth{ get { return totalGoldWorth;}}
-    GameObject towerWaypoint;
     TowerObjectPool towerObjectPool;
     float previousDefaultBuff;
     float initialBaseDamage;
@@ -104,11 +104,11 @@ void Update()
                         float tempRangeOfBuff = Mathf.RoundToInt(singerUpgrade.RangeAfterBuff);
                         float tempDMGModFromBuff = singerUpgrade.DamageModFromBuff;
                         
-                        int  distance = Mathf.RoundToInt(Vector3.Distance(transform.position,singer.transform.position));
+                        int  distance = Mathf.RoundToInt(Vector3.Distance(proximatyObjectForUpgrade.position,singer.transform.position));
 
                         if (distance <= tempRangeOfBuff)
                         {
-                            internalDefaultBuff = internalDefaultBuff + tempDMGModFromBuff;
+                            internalDefaultBuff += tempDMGModFromBuff;
                              if(gameObject.CompareTag("Buff"))
                              {
                                 internalRangeModAmountFromDMGBuffs = internalRangeModAmountFromDMGBuffs + tempDMGModFromBuff*0.1f;
@@ -144,10 +144,6 @@ void Update()
     { 
         buttonManager.OpenUpgradeMenu(gameObject, waypointThatCalled, waypointThatCalled.transform.position);            
     }
-public void AssignWaypoint(GameObject waypoint)
-{
-    towerWaypoint = waypoint;
-}
 
 public void UpdateRangeAfterBuff(float newRange)
 {

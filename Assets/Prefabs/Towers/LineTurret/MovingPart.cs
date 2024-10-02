@@ -28,7 +28,6 @@ public class MovingPart : MonoBehaviour
         point1 = lineTurret.Tower1AttachPoint.position;
         point2 = lineTurret.Tower2AttachPoint.position;
         distance = Vector3.Distance(point1, point2);
-        speed = lineTurret.Speed;
         transform.LookAt(point2);
         //move towards next point
         StartCoroutine(MoveTowardsNext());
@@ -39,7 +38,7 @@ public class MovingPart : MonoBehaviour
     {   rb.isKinematic = false;
         float t = 0;
         float elapsedTime = 0;
-
+        speed = upgrade.BaseAttackSpeed;
         while(t<1)
         {
             t += elapsedTime*speed/distance*0.1f;

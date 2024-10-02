@@ -100,14 +100,13 @@ public class TowerObjectPool : MonoBehaviour
             }
         }
     }
-public GameObject SpawnTower(int towerIndex, Vector3 position, GameObject waypoint)
+public GameObject SpawnTower(int towerIndex, Vector3 position)
 {   
     for(int i = 0; i < towerPools[towerIndex].Length; i++)
     {   
         if(!towerPools[towerIndex][i].activeSelf)
         {
             towerPools[towerIndex][i].transform.position = position;
-            towerPools[towerIndex][i].GetComponent<Upgrade>().AssignWaypoint(waypoint);
             towerPools[towerIndex][i].SetActive(true);
             GameObject returnedObject = towerPools[towerIndex][i];
             return returnedObject;

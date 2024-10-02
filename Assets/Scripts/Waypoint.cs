@@ -79,7 +79,7 @@ public class Waypoint : MonoBehaviour
                 
                 if(currentBalance >= goldCost1)
                 {
-                    whatTowerIsOnMe = towerObjectPool.SpawnTower(index, transform.position, gameObject);
+                    whatTowerIsOnMe = towerObjectPool.SpawnTower(index, transform.position);
                     if(this.CompareTag("Floating"))
                     {
                         whatTowerIsOnMe.transform.parent = transform; 

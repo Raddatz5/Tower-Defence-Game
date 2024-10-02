@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4373866271813501146}
   - component: {fileID: 2275655532246754727}
-  - component: {fileID: 7888882807655581283}
   - component: {fileID: 5254863841557802663}
   - component: {fileID: 438673357806460839}
+  - component: {fileID: 6550327241314169433}
   m_Layer: 0
   m_Name: LineTurret
   m_TagString: Untagged
@@ -56,35 +56,7 @@ MonoBehaviour:
   tower2: {fileID: 6799945404207501488}
   tower1AttachPoint: {fileID: 7333970020683213128}
   tower2AttachPoint: {fileID: 579629819472258405}
-  speed: 1
   movingPart: {fileID: 5186570231824288162}
---- !u!114 &7888882807655581283
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1803156377662845548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56d4d5b8fe0246d4cb0d3a310367c64b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseRange: 0
-  rangeAfterBuff: 0
-  rangeUpAmount: 0
-  costOfRangeUp: 0
-  rangeMod: 0
-  baseDamage: 0
-  currentDamage: 0
-  defaultBuff: 1
-  damageModFromBuff: 0.25
-  dmgUpAmount: 0
-  costOfDMGUp: 0
-  baseAttackSpeed: 0
-  attackSpeedUpAmount: 0
-  costOfSpeedUp: 0
-  initiaLBaseRange: 0
 --- !u!114 &5254863841557802663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +175,34 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &6550327241314169433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1803156377662845548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56d4d5b8fe0246d4cb0d3a310367c64b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseRange: 0
+  proximatyObjectForUpgrade: {fileID: 7742881586637725917}
+  rangeAfterBuff: 0
+  rangeUpAmount: 0
+  costOfRangeUp: 0
+  rangeMod: 0
+  baseDamage: 20
+  currentDamage: 0
+  defaultBuff: 1
+  damageModFromBuff: 0.25
+  dmgUpAmount: 0
+  costOfDMGUp: 0
+  baseAttackSpeed: 1
+  attackSpeedUpAmount: 0
+  costOfSpeedUp: 0
+  initiaLBaseRange: 0
 --- !u!1 &2346512027726728539
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,6 +480,7 @@ GameObject:
   - component: {fileID: 8244365155148767940}
   - component: {fileID: 8457823700398121505}
   - component: {fileID: 3578752852786367912}
+  - component: {fileID: 8790700582263465539}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -562,12 +563,12 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2368
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1727
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -639,6 +640,19 @@ HingeJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &8790700582263465539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6149745067207926034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e568433bfc2bab94181c7b08f70ebc7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDamage: 20
 --- !u!1 &6799945404207501488
 GameObject:
   m_ObjectHideFlags: 0
