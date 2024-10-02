@@ -9,12 +9,16 @@ public class LineTurret : MonoBehaviour
     [SerializeField] GameObject tower1BuildMesh;
     [SerializeField] GameObject tower2;
     [SerializeField] Transform tower1AttachPoint;
+    public Transform Tower1AttachPoint { get { return tower1AttachPoint; }set{} }
     [SerializeField] Transform tower2AttachPoint;
+    public Transform Tower2AttachPoint { get { return tower2AttachPoint; }set{} }
     [SerializeField] float speed;
+    [SerializeField] GameObject movingPart;
+    public float Speed {get { return speed; } set {}}
     MeshRenderer buildMesh1Renderer;
     bool tower2PositionFound = false;
     bool lookingForTower2 =false;
-    public bool LookingForTower2 {get {return lookingForTower2;}}
+    public bool LookingForTower2 {get {return lookingForTower2;}set{}}
     MouseClicker mouseClicker;
     PathFinder pathFinder;
     List <Vector2Int> coordinateList = new ();
@@ -36,10 +40,7 @@ public class LineTurret : MonoBehaviour
     //TO DO LIST
     
     // gold.Withdraw(goldCost1);
-    
-    // add upgarde to line turret
 
-    //note: upgrade has 1st waypoint assinged to it, not the 2nd
     void OnEnable()
     {   coordinateList.Clear();
         tower2PositionFound = false;
@@ -47,6 +48,7 @@ public class LineTurret : MonoBehaviour
         tower2.SetActive(false);
         buildMesh1Renderer.enabled = true;
         lineRenderer.enabled=true;
+        movingPart.SetActive(false);
     }
 
     IEnumerator Setup()
@@ -72,6 +74,7 @@ public class LineTurret : MonoBehaviour
         waypoint2.GetComponent<Waypoint>().BlockTile();
         
         StopAllCoroutines();
+        movingPart.SetActive(true);
         yield return null;
     }
 
