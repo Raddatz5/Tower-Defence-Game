@@ -28,7 +28,7 @@ TagManager:
   - Knight
   - SlowDown
   - Blockable
-  - 
+  - IgnoreCollisions
   - 
   - 
   - 

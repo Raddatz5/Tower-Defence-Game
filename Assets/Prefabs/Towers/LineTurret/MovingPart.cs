@@ -12,7 +12,7 @@ public class MovingPart : MonoBehaviour
     Vector3 point1;
     Vector3 point2;
     float speed;
-    [SerializeField] float timePause = 1.5f;
+    [SerializeField] float timePause = 1.1f;
     float distance;
     Rigidbody rb;
 
@@ -24,10 +24,11 @@ public class MovingPart : MonoBehaviour
     }
 
     void OnEnable()
-    {
+    {   
         point1 = lineTurret.Tower1AttachPoint.position;
         point2 = lineTurret.Tower2AttachPoint.position;
         distance = Vector3.Distance(point1, point2);
+        transform.SetPositionAndRotation(point1, Quaternion.identity);
         transform.LookAt(point2);
         //move towards next point
         StartCoroutine(MoveTowardsNext());

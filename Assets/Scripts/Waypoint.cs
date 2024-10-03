@@ -129,7 +129,12 @@ public class Waypoint : MonoBehaviour
             return;
         }
         else if (!EventSystem.current.IsPointerOverGameObject() && isPlaceable && !secondTower.GetComponent<LineTurret>().IsItBlocked(coordinates) && buttonManager.IsBuildMenuOpen)
-        {                       
+        {   
+            index = buttonManager.WhereOnIndex;
+            spawnObject = listOfSpawns[index];
+            goldCost1 = spawnObject.GetComponent<GoldCost>().HowMuch;
+            currentBalance = gold.CurrentBalance;    
+
             whatTowerIsOnMe = secondTower;
             if(this.CompareTag("Floating"))
             {
@@ -137,6 +142,7 @@ public class Waypoint : MonoBehaviour
             }
                 LineTurret lineTurret = whatTowerIsOnMe.GetComponent<LineTurret>();
                 lineTurret.FoundTower2(transform.position,gameObject);
+                 gold.Withdraw(goldCost1);
         }
         else 
         {

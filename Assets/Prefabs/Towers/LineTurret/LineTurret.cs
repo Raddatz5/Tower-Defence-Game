@@ -24,6 +24,7 @@ public class LineTurret : MonoBehaviour
     GameObject waypoint1;
     GameObject waypoint2;
     LineRenderer lineRenderer;
+    [SerializeField] int goldCost = 80;
 
     void Awake()
     {
@@ -62,6 +63,9 @@ public class LineTurret : MonoBehaviour
         buildMesh1Renderer.enabled = false;
         lineRenderer.material = lineRenderer.materials[1];
 
+        tower1.transform.LookAt(tower2.transform.position);
+        tower2.transform.LookAt(tower1.transform.position);
+
         tower1.SetActive(true);
         tower2.SetActive(true);
 
@@ -73,6 +77,7 @@ public class LineTurret : MonoBehaviour
         
         StopAllCoroutines();
         movingPart.SetActive(true);
+        pathFinder.NotifyReceivers();
         yield return null;
     }
 
@@ -106,6 +111,7 @@ IEnumerator CloseIfBuildMenu()
 {
     yield return new WaitUntil(() => !buttonManager.IsBuildMenuOpen);
      mouseClicker.FoundSecondTower();
+     waypoint1.GetComponent<Waypoint>().MakePlaceable();
     gameObject.SetActive(false);
     yield return null;
 }   

@@ -14,9 +14,13 @@ void Awake()
    baseDamage = upgrade.BaseDamage;
 
 }
+void OnEnable()
+{
+            transform.SetPositionAndRotation(transform.parent.position, Quaternion.identity);
+}
 
    void OnTriggerEnter(Collider other) 
-   {   Debug.Log("I hit something");
+   {   
         if (other.CompareTag("Enemy"))
         {   baseDamage = upgrade.CurrentDamage;
             enemyHealth = other.GetComponent<EnemyHealth>();
