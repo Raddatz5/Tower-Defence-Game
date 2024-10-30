@@ -31,13 +31,13 @@ public class CatapultAim : MonoBehaviour
     List <Vector3> path = new List<Vector3>();
     public List<Vector3> Path {get {return path;}}
     BarrelManager barrelManager;
-    Coroutine coroutine;
 
     void Start()
     {   
         RotateAimer();
         transform.rotation = Quaternion.Euler(0f,catapultAimer.eulerAngles.y,0f);
-        loaded = true;
+        loaded = false;
+        StartCoroutine(Reload());
         previousYRotation2 = gearRotate1.localRotation.eulerAngles.y;
         previousYRotation3 = gearRotate2.localRotation.eulerAngles.y;
         offset = turnSpeed*21/6;
@@ -66,6 +66,7 @@ public class CatapultAim : MonoBehaviour
     {   
         lookingForTarget = false;
         target.gameObject.SetActive(false);
+        fireCoroutine = null;
     }
 
     void Update()
@@ -103,7 +104,6 @@ public class CatapultAim : MonoBehaviour
         notFiring = false;
         loaded = false;
         animator.SetTrigger("FireTrigger");
-        Debug.Log("I set the trigger");
         StartCoroutine(Reload());
         StopCatapult();
         fireCoroutine = null;

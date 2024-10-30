@@ -17,9 +17,11 @@ public class BarrelFire : MonoBehaviour
         barrelManager = FindAnyObjectByType<BarrelManager>();
     }
    void OnEnable()
-   {    
-       
-        path = catapultAim.Path;
+   {   
+       if(path == null || path.Count == 0)
+       {
+        path = new List<Vector3>(catapultAim.Path);
+       }
         speed = barrelManager.Speed;
         if(catapultAim.Path != null)
         {
@@ -45,6 +47,7 @@ public class BarrelFire : MonoBehaviour
             }
         }
         coroutine = null;
+        path = null;
         gameObject.SetActive(false);
    }
 }
