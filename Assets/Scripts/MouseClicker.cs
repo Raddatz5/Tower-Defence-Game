@@ -59,15 +59,5 @@ public void FoundSecondTower()
     lookingForSecondTower = false;
 }
 
-//  private void OnMouseEnter()
-//     {
-//         isMouseOver = true;
-//         // Handle mouse enter behavior (e.g., highlight the object)
-//     }
 
-//     private void OnMouseExit()
-//     {
-//         isMouseOver = false;
-//         // Handle mouse exit behavior (e.g., remove highlight)
-//     }
 }

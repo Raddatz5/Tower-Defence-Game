@@ -57,6 +57,7 @@ public class ButtonManager : MonoBehaviour
     [SerializeField] GameObject pauseMenu;
     [SerializeField] GameObject controlsPic;
     [SerializeField] GameObject towerInfoPic;
+    CatapultAim catapultAim;
 
     
 
@@ -81,6 +82,7 @@ public class ButtonManager : MonoBehaviour
         rangeUpgradeText = upgradeRangeButton.GetComponentInChildren<TextMeshProUGUI>();
         dmgUpgradeText = upgradeDMGButton.GetComponentInChildren<TextMeshProUGUI>();
         sellText = sellButton.GetComponentInChildren<TextMeshProUGUI>();
+        catapultAim = FindAnyObjectByType<CatapultAim>();
     }
 void Start()
 {   
@@ -102,6 +104,7 @@ void Start()
             {
                 OpenBuildMenu(false);
                 pauseMenu.SetActive(false);
+                catapultAim.StopCatapult();
             }
             else
             {
@@ -113,6 +116,7 @@ void Start()
         {   if(!isBuildMenuOpen)
             {       
             OpenBuildMenu(true);
+            catapultAim.StopCatapult();
             }
             else if(isBuildMenuOpen)
             {
@@ -129,6 +133,12 @@ void Start()
             {
               OpenBuildMenu(false);
             }
+            catapultAim.StopCatapult();
+        }
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            OpenBuildMenu(false);
+            catapultAim.StartCatapult();
         }
 
     }
