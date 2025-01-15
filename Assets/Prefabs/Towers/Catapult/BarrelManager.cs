@@ -30,7 +30,6 @@ public class BarrelManager : MonoBehaviour
 
     public IEnumerator BarrelLaunch()
     {  
-    
         for(int i =0;i < barrelPool1.Length;i++)
         {   
             if(!barrelPool1[i].activeInHierarchy)
@@ -39,7 +38,7 @@ public class BarrelManager : MonoBehaviour
                 barrelPool1[i].SetActive(true);
                 break;
             }
-             else{Debug.Log("One was active");}
+             else{}
         }  
         yield return null;
     }

@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseRange: 15
+  proximatyObjectForUpgrade: {fileID: 6841506554732774600}
   rangeAfterBuff: 0
   rangeUpAmount: 3
   costOfRangeUp: 30

@@ -31,7 +31,7 @@ public class EnemyMover : MonoBehaviour
     Vector3 targetPosition;
     public Vector3 TargetPosition { get { return targetPosition;}}
     GameObject knightTarget = null;
-    [SerializeField] float attackSpeed = 1f;
+    [SerializeField] float attackSpeed = 1f; 
     [SerializeField] float attackDamage = 10f;
     PathFinder pathFinder;
     GridManager gridManager;
@@ -62,6 +62,10 @@ public class EnemyMover : MonoBehaviour
         imMoving = false;
         imAttacking = false; 
         last4Positions.Clear();
+        for(int i = 0; i < 5;i++)
+        {
+            last4Positions.Add(transform.position);
+        }
         castleHealth = FindAnyObjectByType<CastleHealth>();
         enemyHealth = GetComponent<EnemyHealth>();
         colliderCounts.Clear();
@@ -74,42 +78,42 @@ public class EnemyMover : MonoBehaviour
         UpdateList();
         SendTriggers();
     }
-void RecalculatePath(bool resetPath)
+public void RecalculatePath(bool resetPath)
     {   if(gridManager.GetCoordinatesFromPosition(transform.position) != pathFinder.DestinationCoordinates)
-    {   
-        Vector2Int coordinates = new Vector2Int();
-        int startSpot = 1;
-           
-        if (resetPath)
-        {
-            coordinates = pathFinder.StartCoordinates;
-        }
-        else 
-        {    // Checks if the node the enemy is heading to is where the tower just got placed and if so to go on a diagonal around it. If not just continue on. 
-            if(pathFinder.CoordinatesNewTower == path[currentWaypoint].coordinates)
+        {  
+            Vector2Int coordinates = new Vector2Int();
+            int startSpot = 1;
+            
+            if (resetPath)
             {
-                    coordinates = gridManager.GetCoordinatesFromPosition(transform.position);
-                    startSpot = 2; 
-                    // Debug.Log("Thats my spot");
+                coordinates = pathFinder.StartCoordinates;
             }
-            else
-            {   if(fromOther)
+            else 
+            {    // Checks if the node the enemy is heading to is where the tower just got placed and if so to go on a diagonal around it. If not just continue on. 
+                if(pathFinder.CoordinatesNewTower == path[currentWaypoint].coordinates)
                 {
-                    coordinates = gridManager.GetCoordinatesFromPosition(transform.position);
+                        coordinates = gridManager.GetCoordinatesFromPosition(transform.position);
+                        startSpot = 2; 
+                        // Debug.Log("Thats my spot");
                 }
                 else
-                {
-                    coordinates = path[currentWaypoint].coordinates;
-                    startSpot = 0;
+                {   if(fromOther)
+                    {
+                        coordinates = gridManager.GetCoordinatesFromPosition(transform.position);
+                    }
+                    else
+                    {
+                        coordinates = path[currentWaypoint].coordinates;
+                        startSpot = 0;
+                    }
                 }
+                fromOther = false;         
             }
-            fromOther = false;         
+            StopAllCoroutines();
+            path.Clear();
+            path = pathFinder.GetNewPath(coordinates);
+            StartCoroutine(FollowPath(startSpot));
         }
-        StopAllCoroutines();
-        path.Clear();
-        path = pathFinder.GetNewPath(coordinates);
-        StartCoroutine(FollowPath(startSpot));
-    }
     }
     
  void FindStart()
@@ -236,7 +240,7 @@ void UpdateSpeed()
         {   
             imMoving =false; 
             if(enemyHealth.CurrentEnemyHealth>0){           
-            animatorController.Attack();}
+            animatorController?.Attack();}
             yield return new WaitForSeconds(castleHealth.CastleDamageDelay);
             enemyHealth.ApplyDamage(castleHealth.CastleDamage);           
         }
@@ -302,7 +306,7 @@ void UpdateSpeed()
         if(imMoving && !isMove)
         {
             isMove = true;
-            animatorController.Move();
+            animatorController?.Move();
         }
         else if(!imMoving && isMove){ isMove = false; animatorController.Stop();}
 

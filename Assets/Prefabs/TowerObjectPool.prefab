@@ -52,5 +52,5 @@ MonoBehaviour:
   tower5: {fileID: 5730228042856448267, guid: 3ae959201a27ac641b3fb5674f7a52f8, type: 3}
   tower6: {fileID: 7758478873561516303, guid: 1bdb9707b28ea1843ac3f74eabb1d521, type: 3}
   tower7: {fileID: 5730228042856448267, guid: 52cec312a163e7941b29751552a235b6, type: 3}
-  tower8: {fileID: 5730228042856448267, guid: 52cec312a163e7941b29751552a235b6, type: 3}
+  tower8: {fileID: 1803156377662845548, guid: 475fd71ae1e60d74ea8e91e5a2a449bc, type: 3}
   poolSize: 50

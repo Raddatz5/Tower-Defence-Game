@@ -51,7 +51,8 @@ MonoBehaviour:
   enemy3: {fileID: 9061018975664127356, guid: 778667ad71f0fd64b946ea2f277f6061, type: 3}
   enemy4: {fileID: 9061018975664127356, guid: 5f281c2edff7de54890ea97dbbf0d50f, type: 3}
   enemy5: {fileID: 9061018975664127356, guid: 71c020ee403b1b44296c5890fb1e1f73, type: 3}
-  poolSize: 24
+  shieldEnemy1: {fileID: 5040643765344069697, guid: 5d269f89ce6195d488d7d77cb6e4adaa, type: 3}
+  poolSize: 44
   numberOfMini: 2
 --- !u!114 &164903825590409311
 MonoBehaviour:
@@ -66,4 +67,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startCoordinates: {x: 1, y: 6}
-  destinationCoordinates: {x: 11, y: 10}
+  destinationCoordinates: {x: 13, y: 11}

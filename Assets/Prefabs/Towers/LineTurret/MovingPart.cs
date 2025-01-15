@@ -7,8 +7,6 @@ public class MovingPart : MonoBehaviour
 {   
     Upgrade upgrade;
     LineTurret lineTurret;
-    Vector3 startPoint1;
-    Vector3 endPoint1;
     Vector3 point1;
     Vector3 point2;
     float speed;

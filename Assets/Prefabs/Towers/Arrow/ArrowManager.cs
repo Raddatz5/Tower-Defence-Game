@@ -16,7 +16,6 @@ public class ArrowManager : MonoBehaviour
     Animator animator;
     [SerializeField] GameObject reloadArrowBot;
     [SerializeField] GameObject reloadArrowTop;
-    [SerializeField] Transform reloadParent;
     MeshRenderer reloadArrowMeshBot;
     MeshRenderer reloadArrowMeshTop;
        
@@ -55,6 +54,7 @@ public class ArrowManager : MonoBehaviour
     {   reloadArrowMeshBot.enabled = false;
         reloadArrowMeshTop.enabled = false;
         tempTarget = target;
+        // THis needs an option if its the gatling turret
         animator.SetTrigger("Fire");
         StartCoroutine(Reset());
         for (int i = 0; i < pool.Length; i++)
@@ -84,7 +84,7 @@ public class ArrowManager : MonoBehaviour
 }
     IEnumerator Reset()
     {   
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.05f);
         animator.ResetTrigger("Fire");
     }
  void OnDisable() { StopAllCoroutines();

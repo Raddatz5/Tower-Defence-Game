@@ -8,6 +8,8 @@ public class PathFinder : MonoBehaviour
 {
     [SerializeField] Vector2Int startCoordinates;
     public Vector2Int StartCoordinates { get { return startCoordinates; } }
+    // [SerializeField] Vector2Int startCoordinates2;
+    // public Vector2Int StartCoordinates2 { get { return startCoordinates2; } }
     [SerializeField] Vector2Int destinationCoordinates;
     public Vector2Int DestinationCoordinates { get { return destinationCoordinates; } }
 
@@ -189,6 +191,8 @@ public class PathFinder : MonoBehaviour
  public void NotifyReceivers()
  {
     BroadcastMessage("RecalculatePath", false, SendMessageOptions.DontRequireReceiver);
+
+
  }
 
  public void UpdateCoordinatePlaceholder(Vector2Int coordinates)

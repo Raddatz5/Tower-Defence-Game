@@ -93,13 +93,29 @@ void Update()
                 }                  
         }        
     }
+     public GameObject SpawnEnemySecond(int enemyBigNumber)
+    {       GameObject sendEm;
+          for(int i = 0; i < poolSize; i++)
+            {
+                if(!enemyPools[enemyBigNumber][i].activeInHierarchy)
+                {
+                    enemyPools[enemyBigNumber][i].SetActive(true);
+                    currentActiveEnemies.Add(enemyPools[enemyBigNumber][i]);
+                   sendEm = enemyPools[enemyBigNumber][i];                    
+                     return sendEm; 
+                }     
+                  
+                        
+            }       
+            return null; 
+    }
 
     public void SpawnEnemyMini(int enemyBigNumber, List<Vector3> destroyedObjectWaypoint, float destroyedObjectTravel)
     {
         int miniCount = 0;
         destroyedObjectWaypoint.Reverse();
         for(int i = 0; i < poolSize; i++)
-            {
+            {  
                 if(!enemyPools[enemyBigNumber-1][i].activeInHierarchy && miniCount<numberOfMini)
                 {
                     enemyMover = enemyPools[enemyBigNumber-1][i].GetComponent<EnemyMover>();
@@ -128,8 +144,12 @@ void Update()
                             miniCount++;
                             enemyPools[enemyBigNumber-1][i].SetActive(true);                            
                             break;
+                            case >= 2:
+                            break;
                         }
                 }
+                if (miniCount >= numberOfMini) { break; }
             }
+            
     }
 }

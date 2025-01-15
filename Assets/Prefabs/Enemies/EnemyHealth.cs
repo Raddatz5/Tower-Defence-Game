@@ -23,6 +23,7 @@ ObjectPoolBig2 objectPoolBig2;
 [SerializeField] float healthBarVerticalOffset = 10f;
 ExplosionPool explosionPool;
 List<Vector3> last4Positions = new();
+MMF_Player mMF_Player;
 
       
     void OnEnable()
@@ -31,6 +32,7 @@ List<Vector3> last4Positions = new();
         _targetHealthBar = this.gameObject.GetComponent<MMHealthBar>();
         _targetHealthBar.HealthBarOffset = new Vector3(0f, healthBarVerticalOffset,UnityEngine.Random.Range(-0.5f,0.5f));
         UpdateHealth();
+       
     }
 
 void Start() 
@@ -39,30 +41,42 @@ void Start()
     enemyMover = GetComponent<EnemyMover>();
     objectPoolBig2 = FindAnyObjectByType<ObjectPoolBig2>();
     explosionPool = FindAnyObjectByType<ExplosionPool>();
+    mMF_Player = GetComponent<MMF_Player>();
 }
  public void ApplyDamage(float baseDamage1)
-    {   
+    {  	if(mMF_Player != null)
+        {
+            mMF_Player.ResetFeedbacks();
+            mMF_Player.PlayFeedbacks();
+        }
         float damageMe = Mathf.Abs(baseDamage1);
         currentEnemyHealth -= damageMe;
         UpdateHealth();
+        
+        
+
         if (currentEnemyHealth <= 0 && this != null)
+        {   if(mMF_Player != null)
         {
+            mMF_Player.ResetFeedbacks ();
+        }
             DestroyEnemy();
+            gameObject.SetActive(false);
+            transform.position = transform.parent.position;
         }
     }
 
 void DestroyEnemy()
-    {   
+    {  
         enemy.RewardGold();
         explosionPool?.SpawnExplosion(enemyBigNumber,transform.position);
     if(enemyBigNumber != 0 && enemyBigNumber < 6)
     {   last4Positions = enemyMover.Last4Positions;
             string list = string.Join(", ", last4Positions.ToArray());
-            Debug.Log($"{transform.position}, {enemyMover.TravelPercentOnDestroy},{list}");
+            // Debug.Log($"{transform.position}, {enemyMover.TravelPercentOnDestroy},{list}");
         objectPoolBig2.SpawnEnemyMini(enemyBigNumber, last4Positions, enemyMover.TravelPercentOnDestroy);  
     }
-    gameObject.SetActive(false);
-    transform.position = transform.parent.position;
+    
      }
 
     public virtual void UpdateHealth()

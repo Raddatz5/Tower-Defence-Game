@@ -11,9 +11,10 @@ using UnityEngine.UIElements;
 public class LookAtEnemyGatling : MonoBehaviour
 {
     [SerializeField] Transform weapon;
+    [SerializeField] Transform gearRotate;
     [SerializeField] GameObject target = null;
      [SerializeField] float attackTimer = 0.286f;
-    [SerializeField] GameObject rotateMe;
+    // [SerializeField] GameObject rotateMe;
     GameObject closestEnemy = null;
     float range = 20;
     bool imShooting;
@@ -33,13 +34,14 @@ public class LookAtEnemyGatling : MonoBehaviour
     TowerObjectPool towerObjectPool;
     CapsuleCollider capsuleCollider;
     bool boolEnemyInRange = false;
-    bool imRotating = false;
     Upgrade upgrade;
     float previousRangeAfterBuff;
     ArrowManager arrowManager;
     bool isTimerRunning = false;
     float currentTimer;
    ShootingGATFeedback shootingfeedback;
+    float previousYRotation2;
+    Animator  animator;
 
     void Start()
     {   arrowManager = GetComponentInChildren<ArrowManager>();
@@ -50,6 +52,10 @@ public class LookAtEnemyGatling : MonoBehaviour
         // rangeAfterBuff = range;
         // previousRangeAfterBuff = rangeAfterBuff;
         Attack(false);
+        previousYRotation2 = gearRotate.transform.eulerAngles.y;
+        animator = GetComponent<Animator>();
+        // animator.speed = 3.3155139f;
+        animator.speed = 5f;
     }
 void OnEnable()
 {
@@ -68,8 +74,21 @@ void OnEnable()
         UpdateTimer(); 
         CheckForBuffs();
         UpdateList();
+        TurnGear();
     }
-
+void TurnGear()
+{   float currentYRotation1 = weapon.transform.eulerAngles.y;
+    float previousXRotation = gearRotate.transform.eulerAngles.z;
+    //get the difference of the angle change and scale the offset by the gear ratio
+    float deltaRotation = Mathf.DeltaAngle(currentYRotation1, previousYRotation2);
+    float offset = deltaRotation*5/3*-1;
+    //Rotate the entire gear around the y axis by follwing weapon y axis
+    Quaternion targetRotation = weapon.transform.rotation;
+    Vector3 targetEulerAngles = targetRotation.eulerAngles;
+    // Vector3 currentEulerAngles = transform.eulerAngles;
+    gearRotate.rotation = Quaternion.Euler(0f,targetEulerAngles.y,previousXRotation+offset);
+    previousYRotation2 = gearRotate.transform.rotation.eulerAngles.y;
+}
 void OnTriggerEnter(Collider other) 
 {   
     if(other.CompareTag("Enemy")){numberOfEnemies.Add(other.gameObject);}
@@ -112,7 +131,7 @@ void UpdateList()
     else {   boolEnemyInRange = false;
             target = null;
             weapon.LookAt(lastTargetPosition);
-            float eulerAngleOffset = -8f;
+            float eulerAngleOffset = -1f;
             weapon.Rotate(Vector3.right, eulerAngleOffset, Space.Self);
             Attack(false);
             }
@@ -127,19 +146,19 @@ void UpdateList()
                 shootingfeedback.PlayTheFeedback();
             }
         imShooting = isActive;
-        if(!imRotating)
-        {StartCoroutine(RotateGatling());}
+        // if(!imRotating)
+        // {StartCoroutine(RotateGatling());}
     }
 
-   IEnumerator RotateGatling()
-    {   imRotating = true;
-        while (imShooting)
-        {
-            rotateMe.transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
-            yield return null;        
-        }
-        imRotating = false;
-    }
+//    IEnumerator RotateGatling()
+//     {   imRotating = true;
+//         while (imShooting)
+//         {
+//             rotateMe.transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
+//             yield return null;        
+//         }
+//         imRotating = false;
+//     }
 
     void CheckForBuffs()
     {   
@@ -232,4 +251,12 @@ private void RemoveInactiveEnemies()
         }
     }
  }
+   public void SetArrowReload()
+{
+    arrowManager.SetArrowReload();
+}
+    public void ReloadDone()
+{
+    arrowManager.ReloadDone();
+}
 }

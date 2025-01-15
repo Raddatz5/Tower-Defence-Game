@@ -715,7 +715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a252f4721a6e8c64980f323988830f57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startSpeed: 3.1
+  startSpeed: 3
   speed: 1
   fromOther: 0
   attackSpeed: 1
@@ -748,7 +748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a003272c0160474d87e50d55e50dd04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goldAmount: 3
+  goldAmount: 30
   ramDamage: 10
 --- !u!54 &2018992945239301678
 Rigidbody:

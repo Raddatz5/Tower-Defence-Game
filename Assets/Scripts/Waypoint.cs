@@ -42,6 +42,8 @@ public class Waypoint : MonoBehaviour
         mainCamera = Camera.main;
         mainCamera.eventMask = 1 <<
         LayerMask.NameToLayer("Default");
+        MeshRenderer mr = GetComponentInChildren<MeshRenderer>();
+        mr.enabled = false;
         if (buttonManager == null) { return; }
         else
         {
@@ -142,7 +144,6 @@ public class Waypoint : MonoBehaviour
             }
                 LineTurret lineTurret = whatTowerIsOnMe.GetComponent<LineTurret>();
                 lineTurret.FoundTower2(transform.position,gameObject);
-                 gold.Withdraw(goldCost1);
         }
         else 
         {
@@ -156,6 +157,7 @@ public class Waypoint : MonoBehaviour
         gridManager.BlockNode(coordinates);
         tileBorder.UpdateSquare();
         isThereATowerOnMe = true;
+        // pathFinder.NotifyReceivers();
     }
         
 }

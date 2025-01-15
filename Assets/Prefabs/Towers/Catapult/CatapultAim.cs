@@ -23,6 +23,8 @@ public class CatapultAim : MonoBehaviour
     bool imRotating = false;
     private Coroutine fireCoroutine = null;
     bool notFiring = true;
+    bool triggerDone = false;
+    public bool TriggerDone { get {return triggerDone;}}
     public Transform gearRotate1;
     public Transform gearRotate2;
     float previousYRotation2;
@@ -31,21 +33,34 @@ public class CatapultAim : MonoBehaviour
     List <Vector3> path = new List<Vector3>();
     public List<Vector3> Path {get {return path;}}
     BarrelManager barrelManager;
+    [SerializeField] GameObject dustCloud;
+    public bool AutoFire = false;
+    [SerializeField] SpriteRenderer spriteAutoPressed;
+    [SerializeField] SpriteRenderer spriteAutoNotPressed;
+    bool firstUse = true;
+
 
     void Start()
-    {   
-        RotateAimer();
+    {   if(!firstUse)
+        {
+            RotateAimer();
+        }
         transform.rotation = Quaternion.Euler(0f,catapultAimer.eulerAngles.y,0f);
         loaded = false;
+        triggerDone = false;
+        lookingForTarget = false;
         StartCoroutine(Reload());
         previousYRotation2 = gearRotate1.localRotation.eulerAngles.y;
         previousYRotation3 = gearRotate2.localRotation.eulerAngles.y;
         offset = turnSpeed*21/6;
         barrelManager = FindAnyObjectByType<BarrelManager>();
+        AutoFire = false;
+        UpdateAutoFireSPrite();
     }
 
     public void StartCatapult()
-    {   if(!lookingForTarget)
+    {   firstUse = false;
+        if(!lookingForTarget)
         {
         target.gameObject.SetActive(true);
         lookingForTarget = true;
@@ -70,30 +85,28 @@ public class CatapultAim : MonoBehaviour
     }
 
     void Update()
-    {   
-        RotateAimer();
-        
-        if(notFiring)
-        { RotateCatapult();}
-
-        if(lookingForTarget)
+    {   if(!firstUse)
         {
-            if(Input.GetMouseButtonDown(0))
-            {   
-                if(loaded)
+            RotateAimer();
+            
+            if(notFiring)
+            { RotateCatapult();}
+
+            if(lookingForTarget)
+            {
+                if(Input.GetMouseButtonDown(0))
                 {   
-                    UpdateLine();
-                    if (fireCoroutine != null)
-                    {
-                        StopCoroutine(fireCoroutine);
+                    if(loaded)
+                    {   
+                        UpdateLine();
+                        if (fireCoroutine != null)
+                        {
+                            StopCoroutine(fireCoroutine);
+                        }
+                        fireCoroutine = StartCoroutine(Fire());
                     }
-                    fireCoroutine = StartCoroutine(Fire());
-                }
-                else
-                {
-                    Debug.Log("Theres no barrel");
-                }
-            }     
+                }     
+            }
         }
     }
 
@@ -111,8 +124,8 @@ public class CatapultAim : MonoBehaviour
 
     public void FireComplete()
     {   
-        StartCoroutine(barrelManager.BarrelLaunch());
         notFiring = true;
+        triggerDone = true;
     }
     private void RotateCatapult()
     {   
@@ -145,27 +158,40 @@ public class CatapultAim : MonoBehaviour
     }
 
     private void RotateAimer()
-    {
-        //Rotate to face target
-        Vector3 direction = target.position - catapultAimer.position;
-
-        // Ignore vertical differences
-        direction.y = 0;
-
-        // If direction is not zero, calculate the rotation
-        if (direction != Vector3.zero)
+    {   if(!firstUse)
         {
-            Quaternion rotation = Quaternion.LookRotation(direction);
-            catapultAimer.rotation = rotation;
+            //Rotate to face target
+            Vector3 direction = target.position - catapultAimer.position;
+
+            // Ignore vertical differences
+            direction.y = 0;
+
+            // If direction is not zero, calculate the rotation
+            if (direction != Vector3.zero)
+            {
+                Quaternion rotation = Quaternion.LookRotation(direction);
+                catapultAimer.rotation = rotation;
+            }
         }
     }
 
     IEnumerator Reload()
     {   
         yield return new WaitForSeconds(reloadTimer);
+        Instantiate(dustCloud,barrelManager.barrelMount.position,barrelManager.barrelMount.rotation);
+        yield return new WaitForSeconds(0.1f);
+        triggerDone = false;
         loaded = true;
         animator.ResetTrigger("FireTrigger");
-        Debug.Log("Im loaded");
+        StartCoroutine(barrelManager.BarrelLaunch());
+        if (AutoFire)
+        {   if(!lookingForTarget)
+            {   
+                UpdateLine();
+                StartCoroutine(Fire());
+            }
+        }
+        
     }
 
     private void UpdateLine()
@@ -213,6 +239,33 @@ public class CatapultAim : MonoBehaviour
             path.Add(rotatedPoint);
             //add it to line renderer
             lineRenderer.SetPosition(i, new Vector3(0, y, i));
+        }
+    }
+    public void AutoFireCatapult()
+    {
+        AutoFire = !AutoFire;
+        UpdateAutoFireSPrite();
+        if(loaded && !lookingForTarget)
+            {   
+                UpdateLine();
+                if (fireCoroutine != null)
+                {
+                    StopCoroutine(fireCoroutine);
+                }
+                fireCoroutine = StartCoroutine(Fire());
+            }
+    }
+    void UpdateAutoFireSPrite()
+    {
+        if (AutoFire)
+        {
+            spriteAutoPressed.enabled = true;
+            spriteAutoNotPressed.enabled = false;
+        }
+        else
+        {
+            spriteAutoPressed.enabled = false;
+            spriteAutoNotPressed.enabled = true;
         }
     }
 }

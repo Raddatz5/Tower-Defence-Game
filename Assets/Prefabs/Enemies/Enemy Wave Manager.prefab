@@ -44,27 +44,80 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1517224510d067546bbf1c5a20d8386f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveReward: 100
+  objectPoolBig2: {fileID: 0}
+  secondaryCoordinates: {x: 4, y: 11}
+  isDoubleLocation: 1
+  waveReward: 500
   startWaveButton: {fileID: 0}
   currentWave: {fileID: 0}
   youWinScreen: {fileID: 0}
-  wave1number: 6
-  wave1special: 0
-  wave2number: 10
-  wave2special: 0
-  wave3number: 14
-  wave3special: 0
-  wave4number: 17
-  wave4special: 0
-  wave5number: 20
-  wave5special: 0
-  wave6number: 24
-  wave6special: 0
-  wave7number: 26
-  wave7special: 0
-  wave8number: 30
-  wave8special: 0
-  wave9number: 45
-  wave9special: 0
-  wave10number: 50
-  wave10special: 0
+  wave1number:
+  - 5
+  - 2.6
+  wave1special:
+  - 0
+  - 0
+  - 0
+  wave2number:
+  - 5
+  - 2.3
+  wave2special:
+  - 1
+  - 1
+  - 7
+  wave3number:
+  - 8
+  - 2.1
+  wave3special:
+  - 1
+  - 2
+  - 7
+  wave4number:
+  - 8
+  - 2
+  wave4special:
+  - 1
+  - 2
+  - 6
+  wave5number:
+  - 12
+  - 1.9
+  wave5special:
+  - 7
+  - 2
+  - 4.5
+  wave6number:
+  - 12
+  - 2
+  wave6special:
+  - 6
+  - 5
+  - 3
+  wave7number:
+  - 15
+  - 2
+  wave7special:
+  - 3
+  - 2
+  - 9
+  wave8number:
+  - 16
+  - 2
+  wave8special:
+  - 3
+  - 5
+  - 4
+  wave9number:
+  - 20
+  - 1.9
+  wave9special:
+  - 4
+  - 3
+  - 5
+  wave10number:
+  - 30
+  - 1.6
+  wave10special:
+  - 5
+  - 4
+  - 6

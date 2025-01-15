@@ -13,7 +13,7 @@ public class LineTurret : MonoBehaviour
     [SerializeField] Transform tower2AttachPoint;
     public Transform Tower2AttachPoint { get { return tower2AttachPoint; }set{} }
     [SerializeField] GameObject movingPart;
-    MeshRenderer buildMesh1Renderer;
+    List<MeshRenderer> buildMesh1Renderer = new();
     bool tower2PositionFound = false;
     bool lookingForTower2 =false;
     public bool LookingForTower2 {get {return lookingForTower2;}set{}}
@@ -24,28 +24,33 @@ public class LineTurret : MonoBehaviour
     GameObject waypoint1;
     GameObject waypoint2;
     LineRenderer lineRenderer;
-    [SerializeField] int goldCost = 80;
-
+    MeshRenderer [] allMeshes;
+    Gold gold;
+    GoldCost goldCost;
+    int goldCost1;
     void Awake()
     {
         upgrade = GetComponent<Upgrade>();
-        buildMesh1Renderer = tower1BuildMesh.GetComponent<MeshRenderer>();
+        allMeshes= tower1BuildMesh.GetComponentsInChildren<MeshRenderer>();
         mouseClicker = FindAnyObjectByType<MouseClicker>();
         pathFinder = FindAnyObjectByType<PathFinder>();
         buttonManager = FindAnyObjectByType<ButtonManager>();
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.enabled = false;
+        gold = FindAnyObjectByType<Gold>();
+        goldCost = GetComponent<GoldCost>();
+        goldCost1 = goldCost.HowMuch;
     }
-    //TO DO LIST
-    
-    // gold.Withdraw(goldCost1);
 
     void OnEnable()
     {   coordinateList.Clear();
         tower2PositionFound = false;
         tower1.SetActive(false);
         tower2.SetActive(false);
-        buildMesh1Renderer.enabled = true;
+        foreach(MeshRenderer mesh in allMeshes)
+        {
+            mesh.enabled = true;
+        }
         lineRenderer.enabled=true;
         movingPart.SetActive(false);
     }
@@ -60,7 +65,10 @@ public class LineTurret : MonoBehaviour
         yield return new WaitUntil(() => tower2PositionFound);
 
         // Vector3 tower2Position = gridManager.GetPostitionFromCoordinates(tower2coordinates);
-        buildMesh1Renderer.enabled = false;
+          foreach(MeshRenderer mesh in allMeshes)
+        {
+            mesh.enabled = false;
+        }
         lineRenderer.material = lineRenderer.materials[1];
 
         tower1.transform.LookAt(tower2.transform.position);
@@ -94,6 +102,7 @@ public class LineTurret : MonoBehaviour
         tower2.transform.position = coordinates;
         tower2PositionFound =true;
         lookingForTower2 = false;
+        gold.Withdraw(goldCost1);
         StopCoroutine(CloseIfBuildMenu());
     }
     //called from waypoint before foundtower2
@@ -121,6 +130,8 @@ IEnumerator FollowAttachPoints()
     {   tower2.transform.position = buttonManager.GhostLocation;
         lineRenderer.SetPosition(0,tower1AttachPoint.position);
         lineRenderer.SetPosition(1,tower2AttachPoint.position);
+        lineRenderer.startWidth = 0.6f;
+        lineRenderer.endWidth = 0.6f;
         yield return null;
     }
 }

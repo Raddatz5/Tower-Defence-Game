@@ -53,6 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseRange: 15
+  proximatyObjectForUpgrade: {fileID: 526690121747029392}
   rangeAfterBuff: 0
   rangeUpAmount: 4
   costOfRangeUp: 40
@@ -106,9 +107,8 @@ MonoBehaviour:
   rampUpTime: 3
   rampUpTimeBase: 2.5
   baseDamage: 0
-  particleSizeInitial: 0
+  particleSize: 0
   particleSizeUp: 0.57
-  subEmitProbInitial: 0
 --- !u!120 &985163665069178735
 LineRenderer:
   serializedVersion: 2

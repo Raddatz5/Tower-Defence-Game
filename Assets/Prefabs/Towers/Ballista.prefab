@@ -583,12 +583,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseRange: 15
-  proximatyObjectForUpgrade: {fileID: 0}
+  proximatyObjectForUpgrade: {fileID: 3049131714819384361}
   rangeAfterBuff: 0
   rangeUpAmount: 4
   costOfRangeUp: 20
   rangeMod: 0
-  baseDamage: 10
+  baseDamage: 6
   currentDamage: 0
   defaultBuff: 1
   damageModFromBuff: 0.25
@@ -629,7 +629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d62b8d61c2878204d844e2263c417d32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goldCost: 60
+  goldCost: 50
 --- !u!120 &5761793200834677302
 LineRenderer:
   serializedVersion: 2
@@ -1638,15 +1638,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6554597422131343977, guid: fae2b419d8f9f9e4e921e04a27f42940, type: 3}
       propertyPath: m_LocalScale.x
-      value: 25
+      value: 410
       objectReference: {fileID: 0}
     - target: {fileID: 6554597422131343977, guid: fae2b419d8f9f9e4e921e04a27f42940, type: 3}
       propertyPath: m_LocalScale.y
-      value: 25
+      value: 410
       objectReference: {fileID: 0}
     - target: {fileID: 6554597422131343977, guid: fae2b419d8f9f9e4e921e04a27f42940, type: 3}
       propertyPath: m_LocalScale.z
-      value: 235
+      value: 410
       objectReference: {fileID: 0}
     - target: {fileID: 6554597422131343977, guid: fae2b419d8f9f9e4e921e04a27f42940, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1721,7 +1721,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6554597422131343977, guid: fae2b419d8f9f9e4e921e04a27f42940, type: 3}
       propertyPath: m_LocalScale.y
-      value: 25
+      value: 410
       objectReference: {fileID: 0}
     - target: {fileID: 6554597422131343977, guid: fae2b419d8f9f9e4e921e04a27f42940, type: 3}
       propertyPath: m_LocalPosition.x

@@ -103,8 +103,10 @@ void Update()
                         Upgrade singerUpgrade = singer.GetComponent<Upgrade>();
                         float tempRangeOfBuff = Mathf.RoundToInt(singerUpgrade.RangeAfterBuff);
                         float tempDMGModFromBuff = singerUpgrade.DamageModFromBuff;
-                        
-                        int  distance = Mathf.RoundToInt(Vector3.Distance(proximatyObjectForUpgrade.position,singer.transform.position));
+                        int  distance = 0;
+                        if(!gameObject.CompareTag("Buff"))
+                        {distance = Mathf.RoundToInt(Vector3.Distance(proximatyObjectForUpgrade.position,singer.transform.position));}
+                        else{distance = 1000;}
 
                         if (distance <= tempRangeOfBuff)
                         {

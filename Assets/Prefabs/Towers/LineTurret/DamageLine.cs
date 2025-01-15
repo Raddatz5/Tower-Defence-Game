@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DamageLine : MonoBehaviour
 {
-     [SerializeField] float baseDamage;
+   float baseDamage;
     EnemyHealth enemyHealth;
     Upgrade upgrade;
 
@@ -12,7 +12,6 @@ void Awake()
 {
    upgrade = GetComponentInParent<Upgrade>();
    baseDamage = upgrade.BaseDamage;
-
 }
 void OnEnable()
 {
@@ -20,7 +19,7 @@ void OnEnable()
 }
 
    void OnTriggerEnter(Collider other) 
-   {   
+   {    
         if (other.CompareTag("Enemy"))
         {   baseDamage = upgrade.CurrentDamage;
             enemyHealth = other.GetComponent<EnemyHealth>();

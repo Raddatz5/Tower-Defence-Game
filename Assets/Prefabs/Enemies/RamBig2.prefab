@@ -748,7 +748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a003272c0160474d87e50d55e50dd04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goldAmount: 2
+  goldAmount: 8
   ramDamage: 10
 --- !u!54 &2018992945239301678
 Rigidbody:

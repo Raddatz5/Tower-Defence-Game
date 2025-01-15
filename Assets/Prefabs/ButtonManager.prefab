@@ -53,6 +53,7 @@ MonoBehaviour:
   - {fileID: 5730228042856448267, guid: 3ae959201a27ac641b3fb5674f7a52f8, type: 3}
   - {fileID: 7758478873561516303, guid: 1bdb9707b28ea1843ac3f74eabb1d521, type: 3}
   - {fileID: 5730228042856448267, guid: 52cec312a163e7941b29751552a235b6, type: 3}
+  - {fileID: 1803156377662845548, guid: 475fd71ae1e60d74ea8e91e5a2a449bc, type: 3}
   selectedObjectsGhosts:
   - {fileID: 7244721291417392770, guid: 83878961ed183bb4da528e8dba424cba, type: 3}
   - {fileID: 2478080087693586240, guid: fb70ab0f3258fa946863799ceb0891ed, type: 3}
@@ -62,7 +63,16 @@ MonoBehaviour:
   - {fileID: 7508535979795534828, guid: 65047aeec310f494fa73ab1e66829c54, type: 3}
   - {fileID: 2995060428855406473, guid: 3b9209013cd83ff4d82d85a94c85cf05, type: 3}
   - {fileID: 5730228042856448267, guid: 88a41ce3ef65ea1448ed4e0bd7c7010f, type: 3}
+  - {fileID: 1803156377662845548, guid: 25cbd38b27860884188ca5ceab5d0ac9, type: 3}
   spawnObjectIndex: 0
   buildMenu: {fileID: 0}
   upgradeMenu: {fileID: 0}
   percentToSell: 0.8
+  statsText: {fileID: 0}
+  background: {fileID: 0}
+  upgradeRangeButton: {fileID: 0}
+  upgradeDMGButton: {fileID: 0}
+  sellButton: {fileID: 0}
+  pauseMenu: {fileID: 0}
+  controlsPic: {fileID: 0}
+  towerInfoPic: {fileID: 0}

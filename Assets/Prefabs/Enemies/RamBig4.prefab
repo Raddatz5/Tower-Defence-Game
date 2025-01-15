@@ -732,7 +732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb58524bf94083640921a6c5320a327a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxEnemyHealth: 220
+  maxEnemyHealth: 200
   enemyBigNumber: 3
   currentEnemyHealth: 0
   healthBarVerticalOffset: 10
@@ -748,7 +748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a003272c0160474d87e50d55e50dd04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goldAmount: 3
+  goldAmount: 15
   ramDamage: 10
 --- !u!54 &2018992945239301678
 Rigidbody:

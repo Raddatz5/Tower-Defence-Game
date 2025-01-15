@@ -52,6 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseRange: 15
+  proximatyObjectForUpgrade: {fileID: 320480018227566169}
   rangeAfterBuff: 0
   rangeUpAmount: 4
   costOfRangeUp: 30
@@ -85,7 +86,6 @@ MonoBehaviour:
   damagePeriod: 1
   dustCloud: {fileID: 4623573697401215833, guid: c6f8f8e8157446446916aea78fbf84c7, type: 3}
   dustCLoudRadius: 0.5
-  parent: {fileID: 6975487558708900303}
 --- !u!114 &6095623618325116366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,7 +229,7 @@ CapsuleCollider:
     m_Bits: 64
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1087
+    m_Bits: 1215
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
