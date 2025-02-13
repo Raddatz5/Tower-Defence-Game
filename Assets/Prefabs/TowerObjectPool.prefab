@@ -53,4 +53,5 @@ MonoBehaviour:
   tower6: {fileID: 7758478873561516303, guid: 1bdb9707b28ea1843ac3f74eabb1d521, type: 3}
   tower7: {fileID: 5730228042856448267, guid: 52cec312a163e7941b29751552a235b6, type: 3}
   tower8: {fileID: 1803156377662845548, guid: 475fd71ae1e60d74ea8e91e5a2a449bc, type: 3}
-  poolSize: 50
+  tower9: {fileID: 2321639511899430666, guid: e530b721e9177464397264f02e0f937e, type: 3}
+  poolSize: 5

@@ -4,6 +4,7 @@ using System.Numerics;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 using Quaternion = UnityEngine.Quaternion;
+using UnityEngine.UI;
 
 public class CannonBarrell : MonoBehaviour
 {
@@ -28,11 +29,14 @@ public class CannonBarrell : MonoBehaviour
     [SerializeField] GameObject target;
     Transform tempParent;
     Animator animator;
+    [SerializeField] Transform rotateMe;
     public Transform gearRotate1;
     public Transform gearRotate2;
-    float previousYRotation2;
-    float previousYRotation3;
-    float previousXRotation;
+    float previousYROtation;
+    [SerializeField] float turnSpeed = 2f;
+
+
+    // TO DO: make an upgrade panel, have it so it can only be changed when its not in a round, have it so it can rotate and show destination when selected
 
       void Awake()
     {
@@ -41,14 +45,17 @@ public class CannonBarrell : MonoBehaviour
     }
 
     void Start()
+    {
+        buttonManager = FindAnyObjectByType<ButtonManager>();
+    }
+
+    void OnEnable()
     {   lineRenderer = GetComponent<LineRenderer>();
-        previousYRotation2 = gearRotate1.localRotation.eulerAngles.y;
-        previousYRotation3 = gearRotate2.localRotation.eulerAngles.y;
         animator = GetComponent<Animator>();
         maxLineLength = ballSpeed * (fuseTime+fuseTimeOffset); 
-        startTransform = transform;
-        previousXRotation = transform.eulerAngles.y;
-        StartCoroutine(Fire());
+        startTransform = rotateMe.transform;
+        previousYROtation = rotateMe.transform.eulerAngles.y;
+        // StartCoroutine(Fire());
         // ShowBallLocation();
         
     }
@@ -57,6 +64,7 @@ public class CannonBarrell : MonoBehaviour
     void Update()
     {
         DrawReflectingLine();
+        RotateController();
         RotateCannon();
         
     }
@@ -65,7 +73,19 @@ public class CannonBarrell : MonoBehaviour
         
 
     // }
-   
+
+   void RotateController()
+   {    
+        previousYROtation = rotateMe.transform.eulerAngles.y;
+        if (Input.GetKey(KeyCode.A))
+        {   
+            rotateMe.transform.Rotate(0f,turnSpeed*Time.deltaTime,0f);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            rotateMe.transform.Rotate(0f,-turnSpeed*Time.deltaTime,0f);
+        }
+   }
    IEnumerator Fire()
     {   
         animator.SetTrigger("CannonFire");
@@ -87,37 +107,11 @@ public class CannonBarrell : MonoBehaviour
     }
      private void RotateCannon()
     {   
-            float currentYRotation1 = transform.eulerAngles.y;
+            float currentYRotation1 = rotateMe.transform.eulerAngles.y;
+            float tempOffset = Mathf.DeltaAngle(currentYRotation1,previousYROtation)*5/3*-1;
             
-            // //get the sign for the direction and offset
-            float sign = Mathf.Sign((currentYRotation1-previousXRotation+180)%360-180);
-            float previousGearZRotation = gearRotate1.eulerAngles.x;
-            float previousGear2ZRotation = gearRotate2.eulerAngles.x;
-            
-            // if(Mathf.Abs(Mathf.DeltaAngle(currentYRotation1,previousXRotation))<turnSpeed)
-            // {   //make the rotating quicksnap so it doesnt vibrate back and forth
-                // transform.rotation = Quaternion.Euler(0f,currentYRotation1,0f);
-            //     imRotating = false;
-                 //rotate the side gears around local z axis
-                float tempOffset = Mathf.DeltaAngle(currentYRotation1,previousXRotation)*5/3*-1;
-                Quaternion targetRotation = transform.rotation;
-                Vector3 targetEulerAngles = targetRotation.eulerAngles;
-                gearRotate1.localRotation = Quaternion.Euler(previousGearZRotation+tempOffset*sign,targetEulerAngles.y,0f);
-                gearRotate2.localRotation = Quaternion.Euler(previousGear2ZRotation+tempOffset*sign,targetEulerAngles.y,0f);
-            // }
-            // else
-            // {
-            // //     //Rotate the entire thing around the y axis by folowing catapultaimer y axis
-            //     transform.rotation = Quaternion.Euler(0f,previousXRotation+turnSpeed*sign,0f);
-            // //     imRotating = true;
-            // //     //rotate the side gears around local z axis
-            //     gearRotate1.localRotation = Quaternion.Euler(0f,targetEulerAngles,previousGearZRotation+offset);
-            //     gearRotate2.localRotation = Quaternion.Euler(0f,-targetEulerAngles,previousGear2ZRotation+offset);
-            // }
-            previousYRotation2 = gearRotate1.localRotation.eulerAngles.y;
-            previousYRotation3 = gearRotate2.localRotation.eulerAngles.y;
-            previousXRotation = transform.eulerAngles.y;
-
+            gearRotate1.Rotate(tempOffset,0f,0f);
+            gearRotate2.Rotate(tempOffset*-1f,0f,0f);
     }
     void DrawReflectingLine()
     {

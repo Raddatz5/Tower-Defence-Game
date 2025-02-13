@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-
-
     float moveSpeed = 40f;
     float scrollSpeed = 15f;
     float rotationSpeed = 50f;
@@ -18,6 +16,7 @@ public class CameraController : MonoBehaviour
     float minZ = -30f;
      float maxZ = 30f;
      float rotationX;
+     bool stopMoving = false;
 
 void Start()
 {
@@ -31,7 +30,9 @@ void Start()
 }
 
     void Update()
-    {
+    {   
+        if (!stopMoving)
+        {
         // Check if rotating
         bool isRotating = (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D));
 
@@ -57,15 +58,7 @@ void Start()
             transform.position = newPositionA;
                         
          }
-        
-        // Up and down movement with mouse wheel
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        Vector3 scrollMove = new Vector3(0, -scroll * scrollSpeed, 0);
-        Vector3 newPosition = transform.position + scrollMove;
-        newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
-        transform.position = newPosition;
-
-        // Rotation with Shift + A / Shift + D
+         // Rotation with Shift + A / Shift + D
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
             float rotate = 0;
@@ -84,6 +77,20 @@ void Start()
            transform.eulerAngles = new Vector3(rotationX, newRotation, 0);
         }
     }
+        
+        // Up and down movement with mouse wheel
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        Vector3 scrollMove = new Vector3(0, -scroll * scrollSpeed, 0);
+        Vector3 newPosition = transform.position + scrollMove;
+        newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
+        transform.position = newPosition;
 
+        
+    }
+
+public void FreezeCamera(bool trigger)
+{
+    stopMoving = trigger;
+}
 
 }

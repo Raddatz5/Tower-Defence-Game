@@ -14,6 +14,7 @@ public class TowerObjectPool : MonoBehaviour
     [SerializeField] GameObject tower6;
     [SerializeField] GameObject tower7;
     [SerializeField] GameObject tower8;
+    [SerializeField] GameObject tower9;
 
     List<GameObject> towerIndex = new();
     public List<GameObject> TowerIndex {get {return towerIndex;}}
@@ -50,6 +51,7 @@ public class TowerObjectPool : MonoBehaviour
         towerIndex.Add(tower6);
         towerIndex.Add(tower7);
         towerIndex.Add(tower8);
+        towerIndex.Add(tower9);
     }
 
     private void PopulatePool()

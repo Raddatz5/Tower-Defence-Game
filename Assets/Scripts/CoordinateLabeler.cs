@@ -25,6 +25,7 @@ public class CoordinateLabeler : MonoBehaviour
         label = GetComponent<TextMeshPro>();
         label.enabled = true;
         DisplayCoordinates();
+        label.enabled = false;
     }
 
     void Update()
@@ -33,6 +34,7 @@ public class CoordinateLabeler : MonoBehaviour
         {
             DisplayCoordinates();
             UpdateObjectName();
+            label.enabled = true;
         }
 
         ColorCoordinates();

@@ -9,6 +9,7 @@ using Unity.VisualScripting;
 using Vector2 = UnityEngine.Vector2;
 using System;
 using TMPro;
+using Gaia;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -58,6 +59,7 @@ public class ButtonManager : MonoBehaviour
     [SerializeField] GameObject controlsPic;
     [SerializeField] GameObject towerInfoPic;
     CatapultAim catapultAim;
+    CameraController cameraController;
 
     
 
@@ -90,6 +92,7 @@ void Start()
     pauseMenu.SetActive(false);
     controlsPic.SetActive(false);
     towerInfoPic.SetActive(false);
+    cameraController = FindAnyObjectByType<CameraController>();
 }
     void Update()
     {  
@@ -150,12 +153,14 @@ void UpdateGhost()
             }
             else{spawnObjectGhost.SetActive(false);}
     if(showGhostIfPlaceable)
-        {   spawnObjectGhost.GetComponent<LineRenderer>().enabled = true; 
+        {   if(spawnObjectGhost.GetComponent<LineRenderer>() != null)
+            {spawnObjectGhost.GetComponent<LineRenderer>().enabled = true;} 
             foreach(MeshRenderer mesh in spawnObjectGhost.GetComponentsInChildren<MeshRenderer>())
                 {mesh.enabled = true;}
         }
     else
-        {   spawnObjectGhost.GetComponent<LineRenderer>().enabled = false;
+        {   if(spawnObjectGhost.GetComponent<LineRenderer>() != null)
+            {spawnObjectGhost.GetComponent<LineRenderer>().enabled = false;}
             foreach(MeshRenderer mesh in spawnObjectGhost.GetComponentsInChildren<MeshRenderer>())
                   {mesh.enabled = false;}
         }
@@ -163,7 +168,11 @@ void UpdateGhost()
 }
 //called from Upgrade script on tower
 public void OpenUpgradeMenu(GameObject targetTower, GameObject waypoint, Vector3 position)
-{                   
+{       
+        if(targetTower.name == "Cannon")
+        {
+            cameraController.FreezeCamera(true);
+        }            
         Vector3 adjustedPosition = cameraMain.WorldToScreenPoint(position);
         adjustedPosition.x *= canvas.GetComponent<RectTransform>().rect.width / cameraMain.pixelWidth;
         adjustedPosition.x += 60;
@@ -287,6 +296,10 @@ IEnumerator CloseUpgradeMenu(Vector3 screenPos)
     if(towerToUpgrade.name != "LineTurret")
     {towerToUpgrade.GetComponent<LineRenderer>().enabled = towerObjectPool.IsShowing;}
     upgradeMenu.SetActive(false);
+    if(towerToUpgrade.name == "Cannon")
+        {
+            cameraController.FreezeCamera(false);
+        }       
 }
 
     void OpenBuildMenu(bool isBuildMenuOpenA)
@@ -413,9 +426,14 @@ public void ButtonTowerDMGUpgrade()
         spawnObjectIndex = 7;
          NextAfterButtonClick();
     }
-             public void ButtonLineTurret()
+        public void ButtonLineTurret()
     {   
         spawnObjectIndex = 8;
+         NextAfterButtonClick();
+    }
+        public void CannonTurret()
+    {   
+        spawnObjectIndex = 9;
          NextAfterButtonClick();
     }
 private void NextAfterButtonClick()
